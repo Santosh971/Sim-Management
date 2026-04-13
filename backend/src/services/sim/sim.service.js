@@ -59,7 +59,14 @@ class SimService {
     const validStatuses = ['active', 'inactive', 'suspended', 'lost'];
     const errors = [];
     const simsToInsert = [];
-    const mobileNumbers = simsData.map(s => s.mobileNumber);
+
+    // Combine country code with mobile number for each SIM
+    const processedData = simsData.map(row => ({
+      ...row,
+      mobileNumber: (row.countryCode || '+91') + row.mobileNumber
+    }));
+
+    const mobileNumbers = processedData.map(s => s.mobileNumber);
 
     // Check for duplicate mobile numbers within the batch
     const duplicates = mobileNumbers.filter((item, index) => mobileNumbers.indexOf(item) !== index);
@@ -76,7 +83,7 @@ class SimService {
     const existingMobileNumbers = existingSims.map(s => s.mobileNumber);
 
     // Collect unique emails for user lookup
-    const emails = simsData
+    const emails = processedData
       .map(s => s.assignedUserEmail)
       .filter(email => email && email.trim() !== '')
       .map(email => email.toLowerCase());
@@ -98,12 +105,13 @@ class SimService {
       }, {});
     }
 
-    for (let i = 0; i < simsData.length; i++) {
-      const row = simsData[i];
+    for (let i = 0; i < processedData.length; i++) {
+      const row = processedData[i];
+      const originalRow = simsData[i];
       const rowErrors = [];
 
-      // Validate mobile number
-      if (!row.mobileNumber || !/^\d{10}$/.test(row.mobileNumber)) {
+      // Validate mobile number (10 digits without country code)
+      if (!originalRow.mobileNumber || !/^\d{10}$/.test(originalRow.mobileNumber)) {
         rowErrors.push('Invalid 10-digit mobile number');
       }
 
@@ -190,8 +198,12 @@ class SimService {
 
     for (const row of data) {
       try {
-        const mobileNumber = row['Mobile Number'] || row.mobileNumber || row.mobile_number;
+        const countryCode = row['Country Code'] || row.countryCode || row.country_code || '+91';
+        const mobileNumberRaw = row['Mobile Number'] || row.mobileNumber || row.mobile_number;
         const assignedUserEmail = row['Assigned User Email'] || row.assignedUserEmail || row.assigned_user_email || '';
+
+        // Combine country code with mobile number
+        const mobileNumber = countryCode + mobileNumberRaw;
 
         const simData = {
           mobileNumber: mobileNumber,
@@ -203,7 +215,7 @@ class SimService {
           createdBy: user.id,
         };
 
-        if (!simData.mobileNumber) {
+        if (!mobileNumberRaw) {
           throw new Error('Missing mobile number');
         }
 
@@ -526,6 +538,7 @@ class SimService {
   async generateImportTemplate() {
     const template = [
       {
+        'Country Code': '+91',
         'Mobile Number': '9876543210',
         'Operator': 'Jio',
         'Circle': 'Maharashtra',

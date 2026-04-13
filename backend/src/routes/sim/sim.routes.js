@@ -42,7 +42,7 @@ const upload = multer({
 
 // Validation rules
 const createSimValidation = [
-  body('mobileNumber').matches(/^\d{10}$/).withMessage('Valid 10-digit mobile number required'),
+  body('mobileNumber').matches(/^\+?\d{10,15}$/).withMessage('Valid mobile number required (10-15 digits, optional + prefix)'),
   body('operator').isIn(['Jio', 'Airtel', 'Vi', 'BSNL', 'MTNL', 'Other']).withMessage('Invalid operator'),
   body('companyId').optional().isMongoId().withMessage('Invalid company ID'),
   body('circle').optional().isString(),
@@ -52,6 +52,7 @@ const createSimValidation = [
 const bulkCreateValidation = [
   body('sims').isArray({ min: 1 }).withMessage('SIMs must be a non-empty array'),
   body('sims.*.mobileNumber').matches(/^\d{10}$/).withMessage('Valid 10-digit mobile number required'),
+  body('sims.*.countryCode').optional().matches(/^\+\d{1,4}$/).withMessage('Valid country code required (e.g., +91)'),
   body('sims.*.operator').isIn(['Jio', 'Airtel', 'Vi', 'BSNL', 'MTNL', 'Other']).withMessage('Invalid operator'),
   body('sims.*.status').optional().isIn(['active', 'inactive', 'suspended', 'lost']),
   body('sims.*.assignedUserEmail').optional().isEmail().withMessage('Valid email required for assigned user'),
@@ -59,7 +60,7 @@ const bulkCreateValidation = [
 
 const updateSimValidation = [
   param('id').isMongoId().withMessage('Invalid SIM ID'),
-  body('mobileNumber').optional().matches(/^\d{10}$/),
+  body('mobileNumber').optional().matches(/^\+?\d{10,15}$/),
   body('operator').optional().isIn(['Jio', 'Airtel', 'Vi', 'BSNL', 'MTNL', 'Other']),
   body('circle').optional().isString(),
   body('notes').optional().isString().isLength({ max: 500 }),

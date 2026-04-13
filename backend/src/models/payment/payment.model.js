@@ -112,7 +112,7 @@ const PaymentSchema = new Schema({
 // Indexes
 PaymentSchema.index({ companyId: 1, status: 1 });
 PaymentSchema.index({ createdAt: -1 });
-PaymentSchema.index({ razorpayOrderId: 1 });
+// razorpayOrderId index is already created by index: true in schema definition
 
 // Generate invoice number before saving
 PaymentSchema.pre('save', async function(next) {

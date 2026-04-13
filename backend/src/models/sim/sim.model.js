@@ -17,7 +17,7 @@ const SimSchema = new Schema({
     type: String,
     required: [true, 'Mobile number is required'],
     trim: true,
-    match: [/^\d{10}$/, 'Mobile number must be 10 digits'],
+    match: [/^\+?\d{10,15}$/, 'Mobile number must be 10-15 digits (with optional + prefix)'],
   },
   operator: {
     type: String,

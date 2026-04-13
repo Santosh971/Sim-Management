@@ -126,7 +126,7 @@ const UserSchema = new Schema({
 });
 
 // Indexes
-UserSchema.index({ email: 1 });
+// email index is already created by unique: true in schema definition
 UserSchema.index({ mobileNumber: 1 }, { unique: true, sparse: true });
 UserSchema.index({ companyId: 1 });
 UserSchema.index({ role: 1 });
