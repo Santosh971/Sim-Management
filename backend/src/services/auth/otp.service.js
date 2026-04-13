@@ -10,7 +10,7 @@ class OTPService {
     this.OTP_LENGTH = 6;
     this.OTP_EXPIRY_MINUTES = 5;
     this.MAX_OTP_ATTEMPTS = 5;
-    this.OTP_COOLDOWN_SECONDS = 30;
+    this.OTP_COOLDOWN_SECONDS = 10; // Reduced from 30 to 10 seconds
   }
 
   /**
@@ -52,24 +52,31 @@ class OTPService {
       // Find or create user
       const user = await this.findOrCreateUser(mobileNumber);
 
-      // Check cooldown
-      if (user.otpExpires && user.otpExpires > Date.now() - (this.OTP_COOLDOWN_SECONDS * 1000)) {
-        const remainingSeconds = Math.ceil((user.otpExpires - (Date.now() - (this.OTP_COOLDOWN_SECONDS * 1000))) / 1000);
-        return {
-          success: false,
-          message: `Please wait ${remainingSeconds} seconds before requesting a new OTP`,
-          retryAfter: remainingSeconds,
-        };
+      // Check cooldown based on lastOtpSentAt
+      if (user.lastOtpSentAt) {
+        const timeSinceLastOtp = Date.now() - user.lastOtpSentAt.getTime();
+        const cooldownMs = this.OTP_COOLDOWN_SECONDS * 1000;
+
+        if (timeSinceLastOtp < cooldownMs) {
+          const remainingSeconds = Math.ceil((cooldownMs - timeSinceLastOtp) / 1000);
+          return {
+            success: false,
+            message: `Please wait ${remainingSeconds} seconds before requesting a new OTP`,
+            retryAfter: remainingSeconds,
+          };
+        }
       }
 
       // Generate OTP
       const otp = this.generateOTP();
       const otpExpires = new Date(Date.now() + (this.OTP_EXPIRY_MINUTES * 60 * 1000));
+      const now = new Date();
 
       // Save OTP to user
       user.otp = otp;
       user.otpExpires = otpExpires;
       user.otpAttempts = 0;
+      user.lastOtpSentAt = now;
       await user.save();
 
       // Send OTP via email

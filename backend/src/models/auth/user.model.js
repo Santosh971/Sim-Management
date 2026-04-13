@@ -68,6 +68,10 @@ const UserSchema = new Schema({
     type: Number,
     default: 0,
   },
+  lastOtpSentAt: {
+    type: Date,
+    default: null,
+  },
   mobileVerified: {
     type: Boolean,
     default: false,
