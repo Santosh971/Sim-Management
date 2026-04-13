@@ -6,6 +6,7 @@ class EmailService {
   constructor() {
     this.transporter = null;
     this.isConfigured = false;
+    this.connectionVerified = false;
     this.init();
   }
 
@@ -50,24 +51,40 @@ class EmailService {
           pass: emailPass,
         },
         // Additional options for better reliability
-        connectionTimeout: 10000, // 10 seconds
-        socketTimeout: 10000, // 10 seconds
+        connectionTimeout: 5000, // 5 seconds (reduced for faster startup)
+        socketTimeout: 5000, // 5 seconds
         tls: {
           rejectUnauthorized: process.env.NODE_ENV === 'production',
         },
       });
 
-      // Verify connection configuration
-      this.verifyConnection();
       this.isConfigured = true;
       logger.info('Email service initialized successfully', {
         host: emailHost,
         port: emailPort,
         user: emailUser,
       });
+
+      // Verify connection asynchronously (don't block startup)
+      this.verifyConnectionAsync();
     } catch (error) {
       logger.error('Failed to initialize email service', { error: error.message });
     }
+  }
+
+  /**
+   * Verify connection asynchronously without blocking startup
+   */
+  verifyConnectionAsync() {
+    // Run verification in background
+    this.verifyConnection().catch(err => {
+      // Log but don't throw - app should still work
+      logger.warn('Email connection could not be established. Email delivery may fail.', {
+        error: err.message,
+        code: err.code,
+        note: 'On cloud platforms (Render, Heroku, etc.), SMTP ports are often blocked. Consider using SendGrid, Mailgun, or Amazon SES for production.',
+      });
+    });
   }
 
   async verifyConnection() {
@@ -78,33 +95,32 @@ class EmailService {
 
     try {
       await this.transporter.verify();
+      this.connectionVerified = true;
       logger.info('Email transporter verified successfully - emails will be sent');
       return true;
     } catch (error) {
-      logger.error('Email transporter verification failed', {
-        error: error.message,
-        code: error.code,
-        command: error.command,
-      });
+      this.connectionVerified = false;
 
-      // Provide helpful hints based on error
-      if (error.message.includes('Invalid login') || error.message.includes('535') || error.code === 'EAUTH') {
-        logger.error('='.repeat(60));
+      // Provide helpful error messages based on error type
+      if (error.code === 'ETIMEDOUT' || error.code === 'ECONNREFUSED') {
+        logger.warn('Email connection timeout - SMTP may be blocked on this platform', {
+          host: config.email.host,
+          port: config.email.port,
+          solution: 'Consider using SendGrid, Mailgun, Amazon SES, or Gmail API instead of SMTP for production',
+        });
+      } else if (error.message.includes('Invalid login') || error.message.includes('535') || error.code === 'EAUTH') {
         logger.error('GMAIL AUTHENTICATION ERROR - Please fix:');
-        logger.error('='.repeat(60));
-        logger.error('Gmail requires App Password for SMTP. Follow these steps:');
-        logger.error('');
+        logger.error('Gmail requires App Password for SMTP. Steps:');
         logger.error('1. Go to https://myaccount.google.com/');
-        logger.error('2. Enable 2-Step Verification if not already enabled');
-        logger.error('3. Go to Security > App passwords (or search "App passwords")');
-        logger.error('4. Click "Create" new App password');
-        logger.error('5. Select app: "Mail" and device: "Other (custom name)"');
-        logger.error('6. Enter "SIM Management" as name');
-        logger.error('7. Copy the 16-character password shown');
-        logger.error('8. In your .env file, set SMTP_PASS to this password (without spaces)');
-        logger.error('');
-        logger.error('Example: SMTP_PASS=yehxpbjanawoqpye');
-        logger.error('='.repeat(60));
+        logger.error('2. Enable 2-Step Verification');
+        logger.error('3. Go to Security > App passwords');
+        logger.error('4. Create new App password for "Mail"');
+        logger.error('5. Use the 16-character password as SMTP_PASS');
+      } else {
+        logger.warn('Email transporter verification failed', {
+          error: error.message,
+          code: error.code,
+        });
       }
 
       return false;

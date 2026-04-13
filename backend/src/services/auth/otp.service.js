@@ -106,7 +106,7 @@ class OTPService {
         // Production: OTP is saved to user record, but can't be delivered via email
         // TODO: Integrate SMS provider for OTP delivery
         // For now, return OTP in response so mobile app can still function
-        logger.info('Production mode: Returning OTP for mobile delivery', { mobileNumber });
+        logger.info('Production mode: Returning OTP for mobile delivery', { mobileNumber, otp });
         return {
           success: true,
           message: 'OTP sent successfully',
@@ -116,20 +116,20 @@ class OTPService {
       }
 
       // Try to send via email
-      const emailResult = await emailService.sendOTPEmail(emailToSend, otp, mobileNumber);
+      // const emailResult = await emailService.sendOTPEmail(emailToSend, otp, mobileNumber);
 
-      if (!emailResult.success) {
-        logger.error('Failed to send OTP email, OTP saved to user record', { mobileNumber, error: emailResult.error });
-        // Don't fail - OTP is still saved to user, they can still verify
-        return {
-          success: true,
-          message: 'OTP generated successfully (email delivery pending)',
-          otp: config.app.env === 'development' ? otp : undefined,
-          expiresAt: otpExpires,
-        };
-      }
+      // if (!emailResult.success) {
+      //   logger.error('Failed to send OTP email, OTP saved to user record', { mobileNumber, error: emailResult.error });
+      //   // Don't fail - OTP is still saved to user, they can still verify
+      //   return {
+      //     success: true,
+      //     message: 'OTP generated successfully (email delivery pending)',
+      //     otp: config.app.env === 'development' ? otp : undefined,
+      //     expiresAt: otpExpires,
+      //   };
+      // }
 
-      logger.info('OTP sent successfully via email', { mobileNumber, email: emailToSend });
+      // logger.info('OTP sent successfully via email', { mobileNumber, email: emailToSend });
 
       return {
         success: true,
