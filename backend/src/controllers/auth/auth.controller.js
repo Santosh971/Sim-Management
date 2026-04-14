@@ -110,14 +110,24 @@ class AuthController {
     try {
       await authService.logout(req.user.id);
 
+      // Determine login method from user info or request
+      const loginMethod = req.user.mobileNumber ? 'otp' : 'email';
+      const userType = req.user.mobileNumber ? 'mobile' : 'web';
+
       // Audit log: USER_LOGOUT
       await auditLogService.logAction({
         action: 'USER_LOGOUT',
         module: 'AUTH',
-        description: `User ${req.user.name} (${req.user.email}) logged out`,
+        description: `User logged out (${userType}${loginMethod === 'otp' ? ' - OTP login' : ''})`,
         performedBy: req.user.id,
         role: req.user.role,
-        companyId: req.user.companyId,
+        companyId: req.user.companyId || null,
+        metadata: {
+          loginMethod,
+          userType,
+          mobileNumber: req.user.mobileNumber || null,
+          email: req.user.email || null,
+        },
         req,
       });
 

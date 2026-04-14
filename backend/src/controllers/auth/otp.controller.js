@@ -1,5 +1,6 @@
 const otpService = require('../../services/auth/otp.service');
 const logger = require('../../utils/logger');
+const auditLogService = require('../../services/auditLog/auditLog.service');
 // [PHONE NORMALIZATION FIX]
 const { normalizePhoneNumber } = require('../../utils/response');
 
@@ -97,6 +98,22 @@ const verifyOTP = async (req, res) => {
     if (!result.success) {
       return res.status(401).json(result);
     }
+
+    // [AUDIT LOG] - Log mobile user login
+    await auditLogService.logAction({
+      action: 'USER_LOGIN',
+      module: 'AUTH',
+      description: `Mobile user logged in via OTP (${result.user.mobileNumber})`,
+      performedBy: result.user.id,
+      role: result.user.role,
+      companyId: result.user.companyId || null,
+      metadata: {
+        loginMethod: 'otp',
+        mobileNumber: result.user.mobileNumber,
+        userAgent: req.headers['user-agent'],
+      },
+      req,
+    });
 
     return res.status(200).json(result);
   } catch (error) {

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const auditLogController = require('../../controllers/auditLog/auditLog.controller');
 const { authenticate, authorize } = require('../../middleware/auth');
-const { query, param } = require('express-validator');
+const { body, query, param } = require('express-validator');
 const { validate } = require('../../middleware/validate');
 
 // All routes require authentication
