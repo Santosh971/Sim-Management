@@ -3,6 +3,41 @@ const auditLogService = require('../../services/auditLog/auditLog.service');
 const { successResponse, paginatedResponse } = require('../../utils/response');
 
 class RechargeController {
+  /**
+   * Auto-create recharge from SMS
+   * POST /api/recharges/auto-create
+   * This endpoint is for external SMS processing systems
+   */
+  async createAuto(req, res, next) {
+    try {
+      const recharge = await rechargeService.createAutoRecharge(req.body);
+
+      // Audit log: RECHARGE_ADD (auto)
+      await auditLogService.logAction({
+        action: 'RECHARGE_ADD',
+        module: 'RECHARGE',
+        description: `Auto-recharge created from SMS: ₹${recharge.amount} for ${recharge.simId?.mobileNumber || 'unknown'}`,
+        performedBy: recharge.createdBy || null,
+        role: recharge.createdBy ? 'user' : 'anonymous',
+        companyId: recharge.companyId,
+        entityId: recharge._id,
+        entityType: 'RECHARGE',
+        metadata: {
+          amount: recharge.amount,
+          simId: recharge.simId?._id,
+          mobileNumber: recharge.simId?.mobileNumber,
+          source: 'AUTO_SMS',
+          smsText: req.body.smsText,
+        },
+        req,
+      });
+
+      return successResponse(res, recharge, 'Auto-recharge created successfully', 201);
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async create(req, res, next) {
     try {
       const recharge = await rechargeService.createRecharge(req.body, req.user);

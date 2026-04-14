@@ -92,15 +92,15 @@ class SimService {
 
     const uniqueEmails = [...new Set(emails)];
 
-    // [BULK UPLOAD FIX] Look up users by email
+    // [BULK UPLOAD FIX + AUDIT LOG FIX] Look up users by email (without companyId filter)
+    // This allows finding mobile users created via OTP who have companyId: null
     let userEmailMap = {};
     let userMap = {}; // [BULK UPLOAD FIX] Store full user objects for name lookup
     if (uniqueEmails.length > 0) {
       const users = await User.find({
         email: { $in: uniqueEmails },
-        companyId: targetCompanyId,
         isActive: true,
-      }).select('_id email name');
+      }).select('_id email name companyId');
 
       userEmailMap = users.reduce((map, u) => {
         map[u.email.toLowerCase()] = u._id;
@@ -148,6 +148,17 @@ class SimService {
           // [BULK UPLOAD FIX] User exists - use existing
           assignedTo = userEmailMap[email];
           assignedToName = userMap[email]?.name || 'Unknown';
+
+          // [AUDIT LOG FIX] If user has no companyId (mobile user), assign them to the company
+          const existingUser = userMap[email];
+          if (existingUser && !existingUser.companyId) {
+            try {
+              await User.findByIdAndUpdate(existingUser._id, { companyId: targetCompanyId });
+              console.log(`[BULK UPLOAD] Assigned company to mobile user ${email}`);
+            } catch (updateError) {
+              console.error(`[BULK UPLOAD] Failed to assign company to user ${email}:`, updateError.message);
+            }
+          }
         } else {
           // [BULK UPLOAD FIX] User does not exist - require name for creation
           const userName = row.assignedUserName;
@@ -187,11 +198,26 @@ class SimService {
             } catch (userCreateError) {
               // [BULK UPLOAD FIX] Handle duplicate email or other errors
               if (userCreateError.code === 11000) {
-                // [BULK UPLOAD FIX] Email already exists in another company - fetch it
+                // [BULK UPLOAD FIX] Email already exists - fetch and check company
                 const existingUser = await User.findOne({ email: email });
-                if (existingUser && existingUser.companyId?.toString() === targetCompanyId.toString()) {
-                  assignedTo = existingUser._id;
-                  assignedToName = existingUser.name;
+                if (existingUser) {
+                  // [AUDIT LOG FIX] If user has no companyId (mobile user), assign them to the company
+                  if (!existingUser.companyId) {
+                    existingUser.companyId = targetCompanyId;
+                    await existingUser.save();
+                    console.log(`[BULK UPLOAD] Assigned company to existing mobile user ${email}`);
+                  }
+
+                  // Use the user if they belong to the same company or now assigned to it
+                  if (existingUser.companyId?.toString() === targetCompanyId.toString()) {
+                    assignedTo = existingUser._id;
+                    assignedToName = existingUser.name;
+                    // Update maps for subsequent rows
+                    userEmailMap[email] = existingUser._id;
+                    userMap[email] = existingUser;
+                  } else {
+                    rowErrors.push('Email already exists in another company');
+                  }
                 } else {
                   rowErrors.push('Email already exists in another company');
                 }
@@ -318,9 +344,9 @@ class SimService {
         // [BULK UPLOAD FIX] Handle assigned user - create if not exists
         if (assignedUserEmail && assignedUserEmail.trim() !== '') {
           const email = assignedUserEmail.toLowerCase();
+          // [AUDIT LOG FIX] Look up user by email without companyId filter to find mobile users
           const assignedUser = await User.findOne({
             email: email,
-            companyId: targetCompanyId,
             isActive: true,
           });
 
@@ -328,6 +354,13 @@ class SimService {
             // [BULK UPLOAD FIX] User exists - use existing
             simData.assignedTo = assignedUser._id;
             assignedToName = assignedUser.name;
+
+            // [AUDIT LOG FIX] If user has no companyId (mobile user), assign them to the company
+            if (!assignedUser.companyId) {
+              assignedUser.companyId = targetCompanyId;
+              await assignedUser.save();
+              console.log(`[BULK IMPORT] Assigned company to mobile user ${email}`);
+            }
           } else {
             // [BULK UPLOAD FIX] User does not exist - require name for creation
             const userName = assignedUserName;
@@ -364,11 +397,23 @@ class SimService {
             } catch (userCreateError) {
               // [BULK UPLOAD FIX] Handle duplicate email or other errors
               if (userCreateError.code === 11000) {
-                // [BULK UPLOAD FIX] Email already exists - fetch and use if same company
+                // [BULK UPLOAD FIX] Email already exists - fetch and use if same company or no company
                 const existingUser = await User.findOne({ email: email });
-                if (existingUser && existingUser.companyId?.toString() === targetCompanyId.toString()) {
-                  simData.assignedTo = existingUser._id;
-                  assignedToName = existingUser.name;
+                if (existingUser) {
+                  // [AUDIT LOG FIX] If user has no companyId (mobile user), assign them to the company
+                  if (!existingUser.companyId) {
+                    existingUser.companyId = targetCompanyId;
+                    await existingUser.save();
+                    console.log(`[BULK IMPORT] Assigned company to existing mobile user ${email}`);
+                  }
+
+                  // Use the user if they belong to the same company or now assigned to it
+                  if (existingUser.companyId?.toString() === targetCompanyId.toString()) {
+                    simData.assignedTo = existingUser._id;
+                    assignedToName = existingUser.name;
+                  } else {
+                    throw new Error('Email already exists in another company');
+                  }
                 } else {
                   throw new Error('Email already exists in another company');
                 }

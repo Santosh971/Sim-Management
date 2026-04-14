@@ -41,6 +41,12 @@ class ConflictError extends AppError {
   }
 }
 
+class BadRequestError extends AppError {
+  constructor(message = 'Bad request') {
+    super(message, 400, 'BAD_REQUEST');
+  }
+}
+
 class SubscriptionLimitError extends AppError {
   constructor(feature, limit) {
     super(`Subscription limit reached for ${feature}. Limit: ${limit}`, 403, 'SUBSCRIPTION_LIMIT');
@@ -54,5 +60,6 @@ module.exports = {
   UnauthorizedError,
   ForbiddenError,
   ConflictError,
+  BadRequestError,
   SubscriptionLimitError,
 };

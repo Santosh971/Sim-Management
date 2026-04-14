@@ -1,6 +1,7 @@
 const authService = require('../../services/auth/auth.service');
 const auditLogService = require('../../services/auditLog/auditLog.service');
 const { successResponse, errorResponse } = require('../../utils/response');
+const User = require('../../models/auth/user.model');
 const crypto = require('crypto');
 
 class AuthController {
@@ -79,14 +80,18 @@ class AuthController {
       const { email, password } = req.body;
       const result = await authService.login(email, password);
 
+      // [AUDIT LOG FIX] - Fetch user's actual companyId from database to ensure accuracy
+      const userForAudit = await User.findById(result.user._id).select('companyId role');
+      const actualCompanyId = userForAudit?.companyId || null;
+
       // Audit log: USER_LOGIN
       await auditLogService.logAction({
         action: 'USER_LOGIN',
         module: 'AUTH',
         description: `User ${result.user.name} (${result.user.email}) logged in successfully`,
         performedBy: result.user._id,
-        role: result.user.role,
-        companyId: result.user.companyId,
+        role: userForAudit?.role || result.user.role,
+        companyId: actualCompanyId,
         req,
       });
 
@@ -110,6 +115,11 @@ class AuthController {
     try {
       await authService.logout(req.user.id);
 
+      // [AUDIT LOG FIX] - Fetch user's actual companyId from database to ensure accuracy
+      // JWT token might have been issued before companyId was assigned
+      const userForAudit = await User.findById(req.user.id).select('companyId role');
+      const actualCompanyId = userForAudit?.companyId || null;
+
       // Determine login method from user info or request
       const loginMethod = req.user.mobileNumber ? 'otp' : 'email';
       const userType = req.user.mobileNumber ? 'mobile' : 'web';
@@ -120,8 +130,8 @@ class AuthController {
         module: 'AUTH',
         description: `User logged out (${userType}${loginMethod === 'otp' ? ' - OTP login' : ''})`,
         performedBy: req.user.id,
-        role: req.user.role,
-        companyId: req.user.companyId || null,
+        role: userForAudit?.role || req.user.role,
+        companyId: actualCompanyId,
         metadata: {
           loginMethod,
           userType,

@@ -2,7 +2,9 @@ const Recharge = require('../../models/recharge/recharge.model');
 const Sim = require('../../models/sim/sim.model');
 const Company = require('../../models/company/company.model');
 const Notification = require('../../models/notification/notification.model');
-const { NotFoundError, ForbiddenError } = require('../../utils/errors');
+const { NotFoundError, ForbiddenError, BadRequestError } = require('../../utils/errors');
+const { buildPhoneQuery, normalizePhoneNumber } = require('../../utils/response');
+const logger = require('../../utils/logger');
 
 class RechargeService {
   async createRecharge(data, user) {
@@ -43,6 +45,103 @@ class RechargeService {
     await this.updateCompanyStats(sim.companyId);
 
     return recharge.populate('simId', 'mobileNumber operator');
+  }
+
+  /**
+   * Create recharge automatically from SMS
+   * Used by external SMS processing systems
+   */
+  async createAutoRecharge(data) {
+    const {
+      mobileNumber,
+      amount,
+      operator,
+      planName,
+      validity,
+      rechargeDate,
+      smsText,
+      transactionId,
+    } = data;
+
+    // [DUPLICATE CHECK] - Prevent duplicate recharges within ±2 minutes
+    const duplicateCheckWindow = new Date(Date.now() - 2 * 60 * 1000); // 2 minutes ago
+
+    // Find SIM by mobile number (using phone query for compatibility)
+    const phoneQuery = buildPhoneQuery(mobileNumber);
+    if (!phoneQuery) {
+      throw new BadRequestError('Invalid mobile number format');
+    }
+
+    const sim = await Sim.findOne(phoneQuery);
+    if (!sim) {
+      throw new NotFoundError('SIM');
+    }
+
+    // Check for duplicate recharge: same simId, same amount, within 2 minutes
+    const existingRecharge = await Recharge.findOne({
+      simId: sim._id,
+      amount: amount,
+      rechargeDate: { $gte: duplicateCheckWindow },
+      source: 'AUTO_SMS',
+    });
+
+    if (existingRecharge) {
+      logger.warn('Duplicate auto-recharge prevented', {
+        mobileNumber,
+        amount,
+        existingRechargeId: existingRecharge._id,
+        simId: sim._id,
+      });
+      throw new BadRequestError('Duplicate recharge detected. A recharge with the same amount for this mobile number was created within the last 2 minutes.');
+    }
+
+    // Parse validity to number (handle string like "28 days" or "28")
+    let validityDays = 28; // default
+    if (validity) {
+      const validityMatch = validity.toString().match(/(\d+)/);
+      if (validityMatch) {
+        validityDays = parseInt(validityMatch[1]);
+      }
+    }
+
+    // Create recharge record
+    const recharge = new Recharge({
+      companyId: sim.companyId,
+      simId: sim._id,
+      amount: amount,
+      validity: validityDays,
+      plan: {
+        name: planName || null,
+        validity: validityDays,
+      },
+      rechargeDate: rechargeDate ? new Date(rechargeDate) : new Date(),
+      paymentMethod: 'other',
+      transactionId: transactionId || null,
+      source: 'AUTO_SMS',
+      smsText: smsText || null,
+      operator: operator || sim.operator || null,
+      status: 'completed',
+      createdBy: sim.assignedTo || null, // Link to user if SIM is assigned
+    });
+
+    await recharge.save();
+
+    // Update SIM last active date
+    sim.lastActiveDate = new Date();
+    await sim.save();
+
+    // Update company stats
+    await this.updateCompanyStats(sim.companyId);
+
+    logger.info('Auto-recharge created from SMS', {
+      rechargeId: recharge._id,
+      mobileNumber,
+      amount,
+      simId: sim._id,
+      companyId: sim.companyId,
+    });
+
+    return recharge.populate('simId', 'mobileNumber operator status');
   }
 
   async getAllRecharges(query, user) {

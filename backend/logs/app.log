@@ -2177,3 +2177,220 @@
 [2026-04-14T10:02:00.493Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","userRole":"admin","companyId":"69dcd1993002ab764a80f5e5","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":58}
 [2026-04-14T10:02:03.690Z] INFO: Fetched notifications {"userId":"69dcd1c53002ab764a80f5fa","count":5,"total":5}
 [2026-04-14T10:02:03.754Z] INFO: Fetched notifications {"userId":"69dcd1c53002ab764a80f5fa","count":5,"total":5}
+[2026-04-14T10:38:56.012Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T10:38:56.038Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T10:38:57.705Z] INFO: Initializing cron jobs...
+[2026-04-14T10:38:58.090Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T10:38:58.095Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T10:38:58.099Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T10:38:58.105Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T10:38:58.109Z] INFO: All cron jobs initialized
+[2026-04-14T10:38:58.828Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T10:39:01.670Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T10:39:01.692Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T10:39:02.920Z] INFO: Initializing cron jobs...
+[2026-04-14T10:39:02.965Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T10:39:02.968Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T10:39:02.971Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T10:39:02.973Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T10:39:02.975Z] INFO: All cron jobs initialized
+[2026-04-14T10:39:03.933Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T10:39:20.755Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T10:39:20.766Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T10:39:22.078Z] INFO: Initializing cron jobs...
+[2026-04-14T10:39:22.128Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T10:39:22.131Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T10:39:22.133Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T10:39:22.135Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T10:39:22.136Z] INFO: All cron jobs initialized
+[2026-04-14T10:39:22.804Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T10:39:31.475Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T10:39:31.490Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T10:39:32.411Z] INFO: Initializing cron jobs...
+[2026-04-14T10:39:32.448Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T10:39:32.451Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T10:39:32.453Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T10:39:32.455Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T10:39:32.457Z] INFO: All cron jobs initialized
+[2026-04-14T10:39:33.395Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T10:40:00.320Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T10:40:00.330Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T10:40:01.154Z] INFO: Initializing cron jobs...
+[2026-04-14T10:40:01.176Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T10:40:01.179Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T10:40:01.180Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T10:40:01.182Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T10:40:01.183Z] INFO: All cron jobs initialized
+[2026-04-14T10:40:02.017Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T10:40:19.099Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T10:40:19.110Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T10:40:20.089Z] INFO: Initializing cron jobs...
+[2026-04-14T10:40:20.139Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T10:40:20.141Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T10:40:20.143Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T10:40:20.146Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T10:40:20.148Z] INFO: All cron jobs initialized
+[2026-04-14T10:40:21.014Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T10:40:32.810Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T10:40:32.825Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T10:40:34.221Z] INFO: Initializing cron jobs...
+[2026-04-14T10:40:34.277Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T10:40:34.280Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T10:40:34.283Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T10:40:34.287Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T10:40:34.290Z] INFO: All cron jobs initialized
+[2026-04-14T10:40:35.654Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T10:41:15.047Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T10:41:15.061Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T10:41:16.295Z] INFO: Initializing cron jobs...
+[2026-04-14T10:41:16.341Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T10:41:16.343Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T10:41:16.346Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T10:41:16.349Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T10:41:16.350Z] INFO: All cron jobs initialized
+[2026-04-14T10:41:17.020Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T10:41:22.510Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T10:41:22.521Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T10:41:23.801Z] INFO: Initializing cron jobs...
+[2026-04-14T10:41:23.842Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T10:41:23.845Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T10:41:23.847Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T10:41:23.849Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T10:41:23.850Z] INFO: All cron jobs initialized
+[2026-04-14T10:41:24.565Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T10:41:28.188Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T10:41:28.207Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T10:41:29.598Z] INFO: Initializing cron jobs...
+[2026-04-14T10:41:29.652Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T10:41:29.654Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T10:41:29.656Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T10:41:29.659Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T10:41:29.660Z] INFO: All cron jobs initialized
+[2026-04-14T10:41:30.734Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T10:42:07.535Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T10:42:07.546Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T10:42:08.356Z] INFO: Initializing cron jobs...
+[2026-04-14T10:42:08.387Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T10:42:08.389Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T10:42:08.392Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T10:42:08.394Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T10:42:08.395Z] INFO: All cron jobs initialized
+[2026-04-14T10:42:09.444Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T11:26:21.875Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T11:26:21.886Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T11:26:23.064Z] INFO: Initializing cron jobs...
+[2026-04-14T11:26:23.124Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T11:26:23.126Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T11:26:23.127Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T11:26:23.129Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T11:26:23.130Z] INFO: All cron jobs initialized
+[2026-04-14T11:26:23.975Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T11:26:47.001Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T11:26:47.013Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T11:26:48.203Z] INFO: Initializing cron jobs...
+[2026-04-14T11:26:48.237Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T11:26:48.239Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T11:26:48.241Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T11:26:48.243Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T11:26:48.244Z] INFO: All cron jobs initialized
+[2026-04-14T11:26:49.096Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T11:27:02.574Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T11:27:02.586Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T11:27:04.516Z] INFO: Initializing cron jobs...
+[2026-04-14T11:27:04.544Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T11:27:04.546Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T11:27:04.549Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T11:27:04.551Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T11:27:04.553Z] INFO: All cron jobs initialized
+[2026-04-14T11:27:04.800Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T11:27:23.406Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T11:27:23.417Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T11:27:24.494Z] INFO: Initializing cron jobs...
+[2026-04-14T11:27:24.528Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T11:27:24.531Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T11:27:24.533Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T11:27:24.536Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T11:27:24.537Z] INFO: All cron jobs initialized
+[2026-04-14T11:27:25.159Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T11:27:49.936Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T11:27:49.945Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T11:27:50.831Z] INFO: Initializing cron jobs...
+[2026-04-14T11:27:50.862Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T11:27:50.865Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T11:27:50.867Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T11:27:50.868Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T11:27:50.870Z] INFO: All cron jobs initialized
+[2026-04-14T11:27:51.783Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T11:34:35.690Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T11:34:35.707Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T11:34:36.897Z] INFO: Initializing cron jobs...
+[2026-04-14T11:34:36.942Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T11:34:36.945Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T11:34:36.946Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T11:34:36.949Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T11:34:36.950Z] INFO: All cron jobs initialized
+[2026-04-14T11:34:37.830Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T11:34:47.038Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T11:34:47.055Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T11:34:48.215Z] INFO: Initializing cron jobs...
+[2026-04-14T11:34:48.270Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T11:34:48.274Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T11:34:48.278Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T11:34:48.282Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T11:34:48.283Z] INFO: All cron jobs initialized
+[2026-04-14T11:34:49.134Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T11:35:52.303Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T11:35:52.315Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T11:35:53.282Z] INFO: Initializing cron jobs...
+[2026-04-14T11:35:53.307Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T11:35:53.310Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T11:35:53.312Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T11:35:53.314Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T11:35:53.315Z] INFO: All cron jobs initialized
+[2026-04-14T11:35:54.269Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T11:36:18.663Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T11:36:18.682Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T11:36:19.480Z] INFO: Initializing cron jobs...
+[2026-04-14T11:36:19.511Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T11:36:19.513Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T11:36:19.515Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T11:36:19.517Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T11:36:19.517Z] INFO: All cron jobs initialized
+[2026-04-14T11:36:20.447Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T11:37:07.863Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T11:37:07.874Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T11:37:08.592Z] INFO: Initializing cron jobs...
+[2026-04-14T11:37:08.613Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T11:37:08.616Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T11:37:08.618Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T11:37:08.620Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T11:37:08.621Z] INFO: All cron jobs initialized
+[2026-04-14T11:37:09.664Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T11:54:19.819Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","userRole":"admin","companyId":"69dcd1993002ab764a80f5e5","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":63}
+[2026-04-14T11:54:19.903Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","userRole":"admin","companyId":"69dcd1993002ab764a80f5e5","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":63}
+[2026-04-14T11:54:20.335Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","userRole":"admin","companyId":"69dcd1993002ab764a80f5e5","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":63}
+[2026-04-14T11:54:50.965Z] INFO: Phone number normalized for sendOTP {"original":"+918805770897","normalized":"+918805770897"}
+[2026-04-14T11:54:51.033Z] WARN: No email address found for OTP delivery, OTP saved to user record {"mobileNumber":"+918805770897"}
+[2026-04-14T11:54:51.035Z] INFO: Development mode: Returning OTP in response {"mobileNumber":"+918805770897","otp":"566654"}
+[2026-04-14T11:54:51.056Z] INFO: Audit log created: AUTH.OTP_SEND {"logId":"69de2b0b260c393969394848","performedBy":"anonymous","companyId":null}
+[2026-04-14T11:55:18.081Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","userRole":"admin","companyId":"69dcd1993002ab764a80f5e5","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":63}
+[2026-04-14T11:55:18.176Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","userRole":"admin","companyId":"69dcd1993002ab764a80f5e5","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":63}
+[2026-04-14T11:55:18.548Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","userRole":"admin","companyId":"69dcd1993002ab764a80f5e5","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":63}
+[2026-04-14T11:55:20.227Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","userRole":"admin","companyId":"69dcd1993002ab764a80f5e5","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":63}
+[2026-04-14T11:55:20.296Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","userRole":"admin","companyId":"69dcd1993002ab764a80f5e5","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":63}
+[2026-04-14T11:55:20.737Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","userRole":"admin","companyId":"69dcd1993002ab764a80f5e5","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":63}
+[2026-04-14T11:55:25.289Z] INFO: Audit log created: REPORT.REPORT_GENERATE {"logId":"69de2b2d260c393969394880","performedBy":"69dcd1c53002ab764a80f5fa","companyId":"69dcd1993002ab764a80f5e5"}
+[2026-04-14T11:55:25.382Z] INFO: Audit log created: REPORT.REPORT_GENERATE {"logId":"69de2b2d260c393969394886","performedBy":"69dcd1c53002ab764a80f5fa","companyId":"69dcd1993002ab764a80f5e5"}
+[2026-04-14T11:55:26.399Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","userRole":"admin","companyId":"69dcd1993002ab764a80f5e5","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":65}
+[2026-04-14T11:55:26.470Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","userRole":"admin","companyId":"69dcd1993002ab764a80f5e5","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":65}
+[2026-04-14T11:55:26.897Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","userRole":"admin","companyId":"69dcd1993002ab764a80f5e5","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":65}
+[2026-04-14T11:55:39.502Z] INFO: Fetched audit logs {"userId":"69dcd04e1a2af7ad09132043","userRole":"super_admin","companyId":null,"filters":{},"count":15,"total":149}
+[2026-04-14T11:55:39.698Z] INFO: Fetched audit logs {"userId":"69dcd04e1a2af7ad09132043","userRole":"super_admin","companyId":null,"filters":{},"count":15,"total":149}
+[2026-04-14T11:55:39.877Z] INFO: Fetched audit logs {"userId":"69dcd04e1a2af7ad09132043","userRole":"super_admin","companyId":null,"filters":{},"count":15,"total":149}
+[2026-04-14T11:56:17.787Z] INFO: Audit log created: REPORT.REPORT_GENERATE {"logId":"69de2b61260c3939693948b6","performedBy":"69dcd1c53002ab764a80f5fa","companyId":"69dcd1993002ab764a80f5e5"}
+[2026-04-14T11:56:17.919Z] INFO: Audit log created: REPORT.REPORT_GENERATE {"logId":"69de2b61260c3939693948bc","performedBy":"69dcd1c53002ab764a80f5fa","companyId":"69dcd1993002ab764a80f5e5"}
+[2026-04-14T11:56:19.644Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","userRole":"admin","companyId":"69dcd1993002ab764a80f5e5","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":67}
+[2026-04-14T11:56:19.728Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","userRole":"admin","companyId":"69dcd1993002ab764a80f5e5","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":67}
+[2026-04-14T11:56:20.141Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","userRole":"admin","companyId":"69dcd1993002ab764a80f5e5","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":67}
+[2026-04-14T11:56:23.019Z] INFO: Fetched notifications {"userId":"69dcd1c53002ab764a80f5fa","count":5,"total":5}
+[2026-04-14T11:56:23.074Z] INFO: Fetched notifications {"userId":"69dcd1c53002ab764a80f5fa","count":5,"total":5}

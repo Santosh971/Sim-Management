@@ -2,10 +2,72 @@ const express = require('express');
 const router = express.Router();
 const { body, param, query } = require('express-validator');
 const rechargeController = require('../../controllers/recharge/recharge.controller');
-const { authenticate, authorize } = require('../../middleware/auth');
+const { authenticate, authorize, optionalAuth } = require('../../middleware/auth');
 const { validate } = require('../../middleware/validate');
 
-// Validation rules
+// =============================================
+// AUTO-RECHARGE ROUTE (for SMS integration)
+// =============================================
+// This endpoint is placed BEFORE authenticate middleware
+// so it can be called without authentication for external SMS processing systems
+// If auth token is provided, it will be used for audit logging
+const autoCreateRechargeValidation = [
+  body('mobileNumber')
+    .notEmpty().withMessage('Mobile number is required')
+    .custom((value) => {
+      // Accept 10 digits, or with country code (+91XXXXXXXXXX, 91XXXXXXXXXX)
+      const cleaned = value.replace(/[\s\-\(\)]/g, '');
+      if (/^\+?\d{10,15}$/.test(cleaned)) return true;
+      throw new Error('Invalid mobile number format. Must be 10-15 digits with optional + prefix');
+    }),
+  body('amount')
+    .notEmpty().withMessage('Amount is required')
+    .isFloat({ min: 0 }).withMessage('Amount must be a positive number'),
+  body('operator')
+    .optional()
+    .isIn(['Jio', 'Airtel', 'Vi', 'BSNL', 'MTNL', 'Other'])
+    .withMessage('Invalid operator'),
+  body('planName')
+    .optional()
+    .isString()
+    .withMessage('Plan name must be a string'),
+  body('validity')
+    .optional()
+    .custom((value) => {
+      // Accept number or string like "28 days" or "28"
+      if (typeof value === 'number' && value > 0) return true;
+      if (typeof value === 'string' && /^\d+(\s*days?)?$/i.test(value.trim())) return true;
+      throw new Error('Validity must be a number or string like "28 days"');
+    }),
+  body('rechargeDate')
+    .optional()
+    .isISO8601()
+    .withMessage('Invalid recharge date format'),
+  body('smsText')
+    .optional()
+    .isString()
+    .withMessage('SMS text must be a string'),
+  body('transactionId')
+    .optional()
+    .isString()
+    .withMessage('Transaction ID must be a string'),
+];
+
+router.post(
+  '/auto-create',
+  optionalAuth,
+  autoCreateRechargeValidation,
+  validate,
+  rechargeController.createAuto
+);
+
+// =============================================
+// AUTHENTICATED ROUTES (require authentication)
+// =============================================
+// All routes below require authentication
+router.use(authenticate);
+
+// Validation rules for manual recharge
 const createRechargeValidation = [
   body('simId').isMongoId().withMessage('Valid SIM ID is required'),
   body('amount').isFloat({ min: 0 }).withMessage('Valid amount is required'),
@@ -39,9 +101,6 @@ const queryValidation = [
   query('sortBy').optional().isIn(['rechargeDate', 'amount', 'nextRechargeDate']),
   query('sortOrder').optional().isIn(['asc', 'desc']),
 ];
-
-// All routes require authentication
-router.use(authenticate);
 
 // Routes
 router.post('/', createRechargeValidation, validate, rechargeController.create);

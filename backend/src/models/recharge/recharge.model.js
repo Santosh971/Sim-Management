@@ -52,6 +52,22 @@ const RechargeSchema = new Schema({
     enum: ['pending', 'completed', 'failed', 'refunded'],
     default: 'completed',
   },
+  source: {
+    type: String,
+    enum: ['manual', 'AUTO_SMS'],
+    default: 'manual',
+  },
+  smsText: {
+    type: String,
+    trim: true,
+    default: null,
+  },
+  operator: {
+    type: String,
+    trim: true,
+    enum: ['Jio', 'Airtel', 'Vi', 'BSNL', 'MTNL', 'Other', null],
+    default: null,
+  },
   reminderSent: {
     type: Boolean,
     default: false,
@@ -85,9 +101,13 @@ RechargeSchema.index({ companyId: 1, rechargeDate: -1 });
 RechargeSchema.index({ companyId: 1, nextRechargeDate: 1 });
 RechargeSchema.index({ simId: 1, rechargeDate: -1 });
 RechargeSchema.index({ status: 1 });
+RechargeSchema.index({ source: 1 });
 
 // Compound index for upcoming recharges
 RechargeSchema.index({ nextRechargeDate: 1, reminderSent: 1 });
+
+// Compound index for duplicate detection (auto-recharge)
+RechargeSchema.index({ simId: 1, source: 1, rechargeDate: -1 });
 
 // Pre-save hook to calculate next recharge date
 RechargeSchema.pre('save', function (next) {

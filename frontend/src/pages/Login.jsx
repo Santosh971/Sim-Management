@@ -17,7 +17,7 @@ export default function Login() {
 
     try {
       await login(email, password)
-      navigate('/dashboard')
+      navigate('/app/dashboard')
     } catch (error) {
       // Error handled in AuthContext
     } finally {

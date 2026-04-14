@@ -1,6 +1,7 @@
 const otpService = require('../../services/auth/otp.service');
 const logger = require('../../utils/logger');
 const auditLogService = require('../../services/auditLog/auditLog.service');
+const User = require('../../models/auth/user.model');
 // [PHONE NORMALIZATION FIX]
 const { normalizePhoneNumber } = require('../../utils/response');
 
@@ -114,14 +115,19 @@ const verifyOTP = async (req, res) => {
       return res.status(401).json(result);
     }
 
+    // [AUDIT LOG FIX] - Fetch user's actual companyId from database to ensure accuracy
+    // JWT token might have been issued before companyId was assigned
+    const userForAudit = await User.findById(result.user.id).select('companyId role');
+    const actualCompanyId = userForAudit?.companyId || null;
+
     // [AUDIT LOG] - Log mobile user login
     await auditLogService.logAction({
       action: 'USER_LOGIN',
       module: 'AUTH',
       description: `Mobile user logged in via OTP (${result.user.mobileNumber})`,
       performedBy: result.user.id,
-      role: result.user.role,
-      companyId: result.user.companyId || null,
+      role: userForAudit?.role || result.user.role,
+      companyId: actualCompanyId,
       metadata: {
         loginMethod: 'otp',
         mobileNumber: result.user.mobileNumber,
