@@ -794,10 +794,23 @@ function BulkUploadModal({ isOpen, onClose, onSuccess }) {
   const validStatuses = ['active', 'inactive', 'suspended', 'lost']
 
   const downloadTemplate = () => {
+    // [BULK UPLOAD FIX] Added Assigned User Name and Assigned User Phone columns
     const template = [
-      { 'Country Code': '+91', 'Mobile Number': '9876543210', 'Operator': 'Jio', 'Circle': 'Maharashtra', 'Status': 'active', 'Assigned User Email': 'user@example.com', 'Notes': 'Optional notes' },
+      { 'Country Code': '+91', 'Mobile Number': '9876543210', 'Operator': 'Jio', 'Circle': 'Maharashtra', 'Status': 'active', 'Assigned User Email': 'user@example.com', 'Assigned User Name': 'John Doe', 'Assigned User Phone': '+919876543210', 'Notes': 'Optional notes' },
     ]
     const ws = XLSX.utils.json_to_sheet(template)
+    // [BULK UPLOAD FIX] Set column widths for readability
+    ws['!cols'] = [
+      { wch: 14 },  // Country Code
+      { wch: 16 },  // Mobile Number
+      { wch: 12 },  // Operator
+      { wch: 16 },  // Circle
+      { wch: 10 },  // Status
+      { wch: 26 },  // Assigned User Email
+      { wch: 20 },  // Assigned User Name
+      { wch: 20 },  // Assigned User Phone
+      { wch: 25 },  // Notes
+    ]
     const wb = XLSX.utils.book_new()
     XLSX.utils.book_append_sheet(wb, ws, 'SIM Import Template')
     XLSX.writeFile(wb, 'sim-import-template.xlsx')
@@ -827,6 +840,9 @@ function BulkUploadModal({ isOpen, onClose, onSuccess }) {
           const circle = String(row['Circle'] || row.circle || '').trim()
           const status = String(row['Status'] || row.status || 'active').toLowerCase().trim()
           const assignedUserEmail = String(row['Assigned User Email'] || row.assignedUserEmail || row.assigned_user_email || '').trim().toLowerCase()
+          // [BULK UPLOAD FIX] Parse Assigned User Name and Phone from Excel
+          const assignedUserName = String(row['Assigned User Name'] || row.assignedUserName || row.assigned_user_name || '').trim()
+          const assignedUserPhone = String(row['Assigned User Phone'] || row.assignedUserPhone || row.assigned_user_phone || '').trim()
           const notes = String(row['Notes'] || row.notes || '').trim()
 
           const rowErrors = []
@@ -850,11 +866,17 @@ function BulkUploadModal({ isOpen, onClose, onSuccess }) {
             rowErrors.push('Invalid email format for Assigned User')
           }
 
+          // [BULK UPLOAD FIX] Name is required when email is provided (new user will be created)
+          if (assignedUserEmail && !assignedUserName) {
+            rowErrors.push('Assigned User Name is required when email is provided')
+          }
+
           if (rowErrors.length > 0) {
             validationErrors.push({ row: index + 2, errors: rowErrors })
           }
 
-          return { countryCode, mobileNumber, operator, circle, status, assignedUserEmail, notes }
+          // [BULK UPLOAD FIX] Include assignedUserName and assignedUserPhone in parsed data
+          return { countryCode, mobileNumber, operator, circle, status, assignedUserEmail, assignedUserName, assignedUserPhone, notes }
         })
 
         setParsedData(validatedData)
@@ -929,7 +951,10 @@ function BulkUploadModal({ isOpen, onClose, onSuccess }) {
     { key: 'operator', header: 'Operator' },
     { key: 'circle', header: 'Circle' },
     { key: 'status', header: 'Status' },
-    { key: 'assignedUserEmail', header: 'Assigned User', render: (row) => row.assignedUserEmail || '-' },
+    { key: 'assignedUserEmail', header: 'User Email', render: (row) => row.assignedUserEmail || '-' },
+    // [BULK UPLOAD FIX] Added User Name and Phone to preview
+    { key: 'assignedUserName', header: 'User Name', render: (row) => row.assignedUserName || '-' },
+    { key: 'assignedUserPhone', header: 'User Phone', render: (row) => row.assignedUserPhone || '-' },
   ]
 
   return (

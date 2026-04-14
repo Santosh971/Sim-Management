@@ -59,6 +59,8 @@ class SimService {
     const validStatuses = ['active', 'inactive', 'suspended', 'lost'];
     const errors = [];
     const simsToInsert = [];
+    // [BULK UPLOAD FIX] Track created users for response
+    const createdUsers = [];
 
     // Combine country code with mobile number for each SIM
     const processedData = simsData.map(row => ({
@@ -82,7 +84,7 @@ class SimService {
 
     const existingMobileNumbers = existingSims.map(s => s.mobileNumber);
 
-    // Collect unique emails for user lookup
+    // [BULK UPLOAD FIX] Collect unique emails for user lookup
     const emails = processedData
       .map(s => s.assignedUserEmail)
       .filter(email => email && email.trim() !== '')
@@ -90,17 +92,24 @@ class SimService {
 
     const uniqueEmails = [...new Set(emails)];
 
-    // Look up users by email
+    // [BULK UPLOAD FIX] Look up users by email
     let userEmailMap = {};
+    let userMap = {}; // [BULK UPLOAD FIX] Store full user objects for name lookup
     if (uniqueEmails.length > 0) {
       const users = await User.find({
         email: { $in: uniqueEmails },
         companyId: targetCompanyId,
         isActive: true,
-      }).select('_id email');
+      }).select('_id email name');
 
       userEmailMap = users.reduce((map, u) => {
         map[u.email.toLowerCase()] = u._id;
+        return map;
+      }, {});
+
+      // [BULK UPLOAD FIX] Store user objects for name lookup
+      userMap = users.reduce((map, u) => {
+        map[u.email.toLowerCase()] = u;
         return map;
       }, {});
     }
@@ -130,14 +139,67 @@ class SimService {
         rowErrors.push('Mobile number already exists');
       }
 
-      // Validate assigned user email
+      // [BULK UPLOAD FIX] Handle assigned user - create if not exists
       let assignedTo = null;
+      let assignedToName = null;
       if (row.assignedUserEmail && row.assignedUserEmail.trim() !== '') {
         const email = row.assignedUserEmail.toLowerCase();
-        if (!userEmailMap[email]) {
-          rowErrors.push('Assigned user email not found in your company');
-        } else {
+        if (userEmailMap[email]) {
+          // [BULK UPLOAD FIX] User exists - use existing
           assignedTo = userEmailMap[email];
+          assignedToName = userMap[email]?.name || 'Unknown';
+        } else {
+          // [BULK UPLOAD FIX] User does not exist - require name for creation
+          const userName = row.assignedUserName;
+          const userPhone = row.assignedUserPhone || null;
+
+          // [BULK UPLOAD FIX] Name is required when creating new user
+          if (!userName || userName.trim() === '') {
+            rowErrors.push('Assigned User Name is required when creating new user');
+          } else {
+            try {
+              // [BULK UPLOAD FIX] Create new user with provided name
+              const newUser = new User({
+                email: email,
+                name: userName.trim(),
+                phone: userPhone,
+                role: 'user',
+                companyId: targetCompanyId,
+                isActive: true,
+                emailVerified: false,
+              });
+
+              await newUser.save();
+
+              // [BULK UPLOAD FIX] Update maps for subsequent rows with same email
+              userEmailMap[email] = newUser._id;
+              userMap[email] = newUser;
+
+              // [BULK UPLOAD FIX] Track created user for response
+              createdUsers.push({
+                email: email,
+                name: userName.trim(),
+                userId: newUser._id
+              });
+
+              assignedTo = newUser._id;
+              assignedToName = userName.trim();
+            } catch (userCreateError) {
+              // [BULK UPLOAD FIX] Handle duplicate email or other errors
+              if (userCreateError.code === 11000) {
+                // [BULK UPLOAD FIX] Email already exists in another company - fetch it
+                const existingUser = await User.findOne({ email: email });
+                if (existingUser && existingUser.companyId?.toString() === targetCompanyId.toString()) {
+                  assignedTo = existingUser._id;
+                  assignedToName = existingUser.name;
+                } else {
+                  rowErrors.push('Email already exists in another company');
+                }
+              } else {
+                rowErrors.push(`Failed to create user: ${userCreateError.message}`);
+              }
+            }
+          }
         }
       }
 
@@ -151,6 +213,8 @@ class SimService {
           status: row.status || 'active',
           notes: row.notes || '',
           assignedTo: assignedTo,
+          // [BULK UPLOAD FIX] Include assigned user name for response
+          _assignedToName: assignedToName,
           companyId: targetCompanyId,
           createdBy: user.id,
           isActive: true,
@@ -171,9 +235,23 @@ class SimService {
     // Update company stats
     await this.updateCompanyStats(targetCompanyId);
 
+    // [BULK UPLOAD FIX] Build response with assigned user names
+    const insertedSims = result.map((sim, index) => ({
+      _id: sim._id,
+      mobileNumber: sim.mobileNumber,
+      operator: sim.operator,
+      status: sim.status,
+      assignedTo: sim.assignedTo,
+      // [BULK UPLOAD FIX] Include assigned user name in response
+      assignedToName: simsToInsert[index]._assignedToName || null
+    }));
+
     return {
       inserted: result.length,
       total: simsData.length,
+      // [BULK UPLOAD FIX] Include created users and sim details in response
+      createdUsers: createdUsers,
+      sims: insertedSims,
     };
   }
 
@@ -194,6 +272,8 @@ class SimService {
       success: [],
       failed: [],
       total: data.length,
+      // [BULK UPLOAD FIX] Track created users for response
+      createdUsers: [],
     };
 
     for (const row of data) {
@@ -201,6 +281,9 @@ class SimService {
         const countryCode = row['Country Code'] || row.countryCode || row.country_code || '+91';
         const mobileNumberRaw = row['Mobile Number'] || row.mobileNumber || row.mobile_number;
         const assignedUserEmail = row['Assigned User Email'] || row.assignedUserEmail || row.assigned_user_email || '';
+        // [BULK UPLOAD FIX] Read additional user fields from Excel
+        const assignedUserName = row['Assigned User Name'] || row.assignedUserName || row.assigned_user_name || '';
+        const assignedUserPhone = row['Assigned User Phone'] || row.assignedUserPhone || row.assigned_user_phone || '';
 
         // Combine country code with mobile number
         const mobileNumber = countryCode + mobileNumberRaw;
@@ -214,6 +297,9 @@ class SimService {
           companyId: targetCompanyId,
           createdBy: user.id,
         };
+
+        // [BULK UPLOAD FIX] Track assigned user name for response
+        let assignedToName = null;
 
         if (!mobileNumberRaw) {
           throw new Error('Missing mobile number');
@@ -229,22 +315,82 @@ class SimService {
           throw new Error('Mobile number already exists');
         }
 
-        // Handle assigned user by email
+        // [BULK UPLOAD FIX] Handle assigned user - create if not exists
         if (assignedUserEmail && assignedUserEmail.trim() !== '') {
+          const email = assignedUserEmail.toLowerCase();
           const assignedUser = await User.findOne({
-            email: assignedUserEmail.toLowerCase(),
+            email: email,
             companyId: targetCompanyId,
             isActive: true,
           });
 
           if (assignedUser) {
+            // [BULK UPLOAD FIX] User exists - use existing
             simData.assignedTo = assignedUser._id;
+            assignedToName = assignedUser.name;
+          } else {
+            // [BULK UPLOAD FIX] User does not exist - require name for creation
+            const userName = assignedUserName;
+            const userPhone = assignedUserPhone || null;
+
+            // [BULK UPLOAD FIX] Name is required when creating new user
+            if (!userName || userName.trim() === '') {
+              throw new Error('Assigned User Name is required when creating new user');
+            }
+
+            try {
+              // [BULK UPLOAD FIX] Create new user with provided name
+              const newUser = new User({
+                email: email,
+                name: userName.trim(),
+                phone: userPhone,
+                role: 'user',
+                companyId: targetCompanyId,
+                isActive: true,
+                emailVerified: false,
+              });
+
+              await newUser.save();
+
+              // [BULK UPLOAD FIX] Track created user for response
+              results.createdUsers.push({
+                email: email,
+                name: userName.trim(),
+                userId: newUser._id
+              });
+
+              simData.assignedTo = newUser._id;
+              assignedToName = userName.trim();
+            } catch (userCreateError) {
+              // [BULK UPLOAD FIX] Handle duplicate email or other errors
+              if (userCreateError.code === 11000) {
+                // [BULK UPLOAD FIX] Email already exists - fetch and use if same company
+                const existingUser = await User.findOne({ email: email });
+                if (existingUser && existingUser.companyId?.toString() === targetCompanyId.toString()) {
+                  simData.assignedTo = existingUser._id;
+                  assignedToName = existingUser.name;
+                } else {
+                  throw new Error('Email already exists in another company');
+                }
+              } else {
+                throw new Error(`Failed to create user: ${userCreateError.message}`);
+              }
+            }
           }
         }
 
         const sim = new Sim(simData);
         await sim.save();
-        results.success.push(sim);
+
+        // [BULK UPLOAD FIX] Include assigned user name in success response
+        results.success.push({
+          _id: sim._id,
+          mobileNumber: sim.mobileNumber,
+          operator: sim.operator,
+          status: sim.status,
+          assignedTo: sim.assignedTo,
+          assignedToName: assignedToName,
+        });
       } catch (error) {
         results.failed.push({
           row,
@@ -544,6 +690,9 @@ class SimService {
         'Circle': 'Maharashtra',
         'Status': 'active',
         'Assigned User Email': 'user@example.com',
+        // [BULK UPLOAD FIX] Added columns for new user creation
+        'Assigned User Name': 'John Doe',
+        'Assigned User Phone': '+919876543210',
         'Notes': 'Optional notes',
       },
     ];

@@ -1398,3 +1398,157 @@
 [2026-04-13T12:37:56.931Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
 [2026-04-13T12:37:56.932Z] INFO: All cron jobs initialized
 [2026-04-13T12:37:58.004Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-13T12:53:11.124Z] INFO: Sending email {"to":"saishukvalley01@gmail.com","subject":"Welcome to SIM Management - Sai Tech"}
+[2026-04-13T12:53:14.740Z] INFO: Email sent successfully {"messageId":"<ee35552b-f2d0-1c10-27fb-1bb4a8ab7398@gmail.com>","to":"saishukvalley01@gmail.com","subject":"Welcome to SIM Management - Sai Tech","response":"250 2.0.0 OK  1776084794 d2e1a72fcca58-82f0c4b5a79sm11959227b3a.30 - gsmtp"}
+[2026-04-13T12:53:14.774Z] INFO: Notification created {"notificationId":"69dce73a0bd277d7f51fc8b0","type":"system","companyId":"69dcd1993002ab764a80f5e5","userId":"69dce7360bd277d7f51fc8ae"}
+[2026-04-13T12:53:14.850Z] INFO: Audit log created: USER.USER_CREATE {"logId":"69dce73a0bd277d7f51fc8b2","performedBy":"69dcd1c53002ab764a80f5fa","companyId":"69dcd1993002ab764a80f5e5"}
+[2026-04-13T12:54:41.074Z] INFO: Audit log created: REPORT.REPORT_GENERATE {"logId":"69dce7910bd277d7f51fc8d3","performedBy":"69dcd1c53002ab764a80f5fa","companyId":"69dcd1993002ab764a80f5e5"}
+[2026-04-13T12:54:41.144Z] INFO: Audit log created: REPORT.REPORT_GENERATE {"logId":"69dce7910bd277d7f51fc8d9","performedBy":"69dcd1c53002ab764a80f5fa","companyId":"69dcd1993002ab764a80f5e5"}
+[2026-04-13T12:55:37.787Z] INFO: Audit log created: SIM.SIM_CREATE {"logId":"69dce7c90bd277d7f51fc93c","performedBy":"69dcd1c53002ab764a80f5fa","companyId":"69dcd1993002ab764a80f5e5"}
+[2026-04-13T12:56:24.649Z] INFO: Audit log created: RECHARGE.RECHARGE_ADD {"logId":"69dce7f80bd277d7f51fc96e","performedBy":"69dcd1c53002ab764a80f5fa","companyId":"69dcd1993002ab764a80f5e5"}
+[2026-04-13T12:56:34.064Z] INFO: Audit log created: REPORT.REPORT_GENERATE {"logId":"69dce8010bd277d7f51fc97e","performedBy":"69dcd1c53002ab764a80f5fa","companyId":"69dcd1993002ab764a80f5e5"}
+[2026-04-13T12:56:35.060Z] INFO: Audit log created: REPORT.REPORT_GENERATE {"logId":"69dce8020bd277d7f51fc984","performedBy":"69dcd1c53002ab764a80f5fa","companyId":"69dcd1993002ab764a80f5e5"}
+[2026-04-13T12:56:35.854Z] INFO: Audit log created: REPORT.REPORT_GENERATE {"logId":"69dce8030bd277d7f51fc98b","performedBy":"69dcd1c53002ab764a80f5fa","companyId":"69dcd1993002ab764a80f5e5"}
+[2026-04-13T12:56:41.369Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":14,"total":14}
+[2026-04-13T12:56:41.476Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":14,"total":14}
+[2026-04-13T12:56:41.690Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":14,"total":14}
+[2026-04-13T12:56:46.889Z] INFO: Fetched notifications {"userId":"69dcd1c53002ab764a80f5fa","count":4,"total":4}
+[2026-04-13T12:56:46.992Z] INFO: Fetched notifications {"userId":"69dcd1c53002ab764a80f5fa","count":4,"total":4}
+[2026-04-13T12:56:55.480Z] INFO: Audit log created: REPORT.REPORT_GENERATE {"logId":"69dce8170bd277d7f51fc9b1","performedBy":"69dcd1c53002ab764a80f5fa","companyId":"69dcd1993002ab764a80f5e5"}
+[2026-04-13T12:56:55.652Z] INFO: Audit log created: REPORT.REPORT_GENERATE {"logId":"69dce8170bd277d7f51fc9be","performedBy":"69dcd1c53002ab764a80f5fa","companyId":"69dcd1993002ab764a80f5e5"}
+[2026-04-13T12:59:23.768Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":16}
+[2026-04-13T12:59:24.011Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":16}
+[2026-04-13T12:59:24.274Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":16}
+[2026-04-13T13:16:58.252Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":16}
+[2026-04-13T13:16:58.378Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":16}
+[2026-04-13T13:16:58.845Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":16}
+[2026-04-13T13:17:03.796Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":16}
+[2026-04-13T13:17:04.008Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":16}
+[2026-04-13T13:17:04.105Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":16}
+[2026-04-13T15:01:46.532Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-13T15:01:46.550Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-13T15:01:48.443Z] INFO: Initializing cron jobs...
+[2026-04-13T15:01:48.476Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-13T15:01:48.480Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-13T15:01:48.482Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-13T15:01:48.485Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-13T15:01:48.487Z] INFO: All cron jobs initialized
+[2026-04-13T15:01:49.376Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-13T15:06:10.889Z] INFO: Audit log created: AUTH.USER_LOGIN {"logId":"69dd066245c908cedc5b2eb1","performedBy":"69dcd04e1a2af7ad09132043","companyId":null}
+[2026-04-13T15:14:00.563Z] INFO: Audit log created: SIM.SIM_EXPORT {"logId":"69dd083845c908cedc5b2f33","performedBy":"69dcd1c53002ab764a80f5fa","companyId":"69dcd1993002ab764a80f5e5"}
+[2026-04-13T15:29:01.330Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-13T15:29:01.343Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-13T15:29:05.256Z] INFO: Initializing cron jobs...
+[2026-04-13T15:29:05.278Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-13T15:29:05.281Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-13T15:29:05.283Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-13T15:29:05.284Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-13T15:29:05.285Z] INFO: All cron jobs initialized
+[2026-04-13T15:29:09.111Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-13T15:29:12.319Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-13T15:29:12.328Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-13T15:29:13.730Z] INFO: Initializing cron jobs...
+[2026-04-13T15:29:13.751Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-13T15:29:13.753Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-13T15:29:13.755Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-13T15:29:13.757Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-13T15:29:13.758Z] INFO: All cron jobs initialized
+[2026-04-13T15:29:14.510Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-13T15:29:16.203Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-13T15:29:16.213Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-13T15:29:17.381Z] INFO: Initializing cron jobs...
+[2026-04-13T15:29:17.402Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-13T15:29:17.404Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-13T15:29:17.406Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-13T15:29:17.408Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-13T15:29:17.409Z] INFO: All cron jobs initialized
+[2026-04-13T15:29:18.312Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-13T15:29:19.988Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-13T15:29:19.998Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-13T15:29:21.338Z] INFO: Initializing cron jobs...
+[2026-04-13T15:29:21.360Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-13T15:29:21.367Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-13T15:29:21.369Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-13T15:29:21.371Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-13T15:29:21.371Z] INFO: All cron jobs initialized
+[2026-04-13T15:29:22.234Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-13T15:29:25.556Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-13T15:29:25.564Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-13T15:29:26.967Z] INFO: Initializing cron jobs...
+[2026-04-13T15:29:26.987Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-13T15:29:26.989Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-13T15:29:26.991Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-13T15:29:26.993Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-13T15:29:26.994Z] INFO: All cron jobs initialized
+[2026-04-13T15:29:27.734Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-13T15:29:41.341Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-13T15:29:41.349Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-13T15:29:42.937Z] INFO: Initializing cron jobs...
+[2026-04-13T15:29:42.985Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-13T15:29:42.986Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-13T15:29:42.988Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-13T15:29:42.990Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-13T15:29:42.991Z] INFO: All cron jobs initialized
+[2026-04-13T15:29:43.482Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-13T15:29:53.987Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-13T15:29:53.996Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-13T15:29:55.444Z] INFO: Initializing cron jobs...
+[2026-04-13T15:29:55.465Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-13T15:29:55.467Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-13T15:29:55.469Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-13T15:29:55.471Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-13T15:29:55.473Z] INFO: All cron jobs initialized
+[2026-04-13T15:29:56.140Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-13T15:35:10.238Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-13T15:35:10.246Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-13T15:37:54.104Z] INFO: Audit log created: AUTH.USER_LOGIN {"logId":"69dd0dd24a00e31c285d2e97","performedBy":"69dcd04e1a2af7ad09132043","companyId":null}
+[2026-04-13T15:40:24.053Z] INFO: Audit log created: SIM.SIM_BULK_CREATE {"logId":"69dd0e684a00e31c285d2ebd","performedBy":"69dcd04e1a2af7ad09132043","companyId":null}
+[2026-04-13T15:40:29.862Z] INFO: Audit log created: SIM.SIM_BULK_CREATE {"logId":"69dd0e6d4a00e31c285d2ec7","performedBy":"69dcd04e1a2af7ad09132043","companyId":null}
+[2026-04-13T15:46:27.782Z] INFO: Audit log created: SIM.SIM_BULK_IMPORT {"logId":"69dd0fd34a00e31c285d2f03","performedBy":"69dcd04e1a2af7ad09132043","companyId":null}
+[2026-04-13T15:54:37.795Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-13T15:54:37.804Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-13T15:54:39.463Z] INFO: Initializing cron jobs...
+[2026-04-13T15:54:39.484Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-13T15:54:39.486Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-13T15:54:39.487Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-13T15:54:39.489Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-13T15:54:39.489Z] INFO: All cron jobs initialized
+[2026-04-13T15:54:40.073Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-13T15:54:57.205Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-13T15:54:57.213Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-13T15:54:58.593Z] INFO: Initializing cron jobs...
+[2026-04-13T15:54:58.616Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-13T15:54:58.618Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-13T15:54:58.619Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-13T15:54:58.620Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-13T15:54:58.621Z] INFO: All cron jobs initialized
+[2026-04-13T15:54:59.223Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-13T15:55:08.809Z] INFO: Audit log created: SIM.SIM_BULK_CREATE {"logId":"69dd11dcda184a342f148cb0","performedBy":"69dcd04e1a2af7ad09132043","companyId":null}
+[2026-04-13T15:55:16.917Z] INFO: Audit log created: SIM.SIM_BULK_IMPORT {"logId":"69dd11e4da184a342f148cd1","performedBy":"69dcd04e1a2af7ad09132043","companyId":null}
+[2026-04-13T15:58:34.397Z] INFO: Audit log created: SIM.SIM_BULK_IMPORT {"logId":"69dd12aada184a342f148db4","performedBy":"69dcd04e1a2af7ad09132043","companyId":null}
+[2026-04-13T16:55:49.443Z] INFO: Audit log created: SIM.SIM_BULK_IMPORT {"logId":"69dd2015da184a342f148fad","performedBy":"69dcd04e1a2af7ad09132043","companyId":null}
+[2026-04-13T16:56:01.751Z] INFO: Audit log created: SIM.SIM_BULK_IMPORT {"logId":"69dd2021da184a342f148fb5","performedBy":"69dcd04e1a2af7ad09132043","companyId":null}
+[2026-04-13T16:57:16.721Z] INFO: Audit log created: COMPANY.COMPANY_UPDATE {"logId":"69dd206cda184a342f149023","performedBy":"69dcd04e1a2af7ad09132043","companyId":"69dcd1993002ab764a80f5e5"}
+[2026-04-13T16:57:31.391Z] INFO: Fetched notifications {"userId":"69dcd1c53002ab764a80f5fa","count":4,"total":4}
+[2026-04-13T16:57:51.638Z] INFO: Audit log created: SIM.SIM_DELETE {"logId":"69dd208fda184a342f14904f","performedBy":"69dcd1c53002ab764a80f5fa"}
+[2026-04-13T16:57:55.080Z] INFO: Audit log created: SIM.SIM_DELETE {"logId":"69dd2093da184a342f14905b","performedBy":"69dcd1c53002ab764a80f5fa"}
+[2026-04-13T16:57:57.483Z] INFO: Audit log created: SIM.SIM_DELETE {"logId":"69dd2095da184a342f149067","performedBy":"69dcd1c53002ab764a80f5fa"}
+[2026-04-13T16:58:05.569Z] INFO: Audit log created: SIM.SIM_DELETE {"logId":"69dd209dda184a342f149075","performedBy":"69dcd1c53002ab764a80f5fa"}
+[2026-04-13T16:58:07.760Z] INFO: Audit log created: SIM.SIM_DELETE {"logId":"69dd209fda184a342f149081","performedBy":"69dcd1c53002ab764a80f5fa"}
+[2026-04-13T16:58:09.839Z] INFO: Audit log created: SIM.SIM_DELETE {"logId":"69dd20a1da184a342f14908d","performedBy":"69dcd1c53002ab764a80f5fa"}
+[2026-04-13T16:58:16.960Z] INFO: Audit log created: SIM.SIM_DELETE {"logId":"69dd20a8da184a342f14909b","performedBy":"69dcd1c53002ab764a80f5fa"}
+[2026-04-13T16:58:18.840Z] INFO: Audit log created: SIM.SIM_DELETE {"logId":"69dd20aada184a342f1490a7","performedBy":"69dcd1c53002ab764a80f5fa"}
+[2026-04-13T16:58:20.853Z] INFO: Audit log created: SIM.SIM_DELETE {"logId":"69dd20acda184a342f1490b3","performedBy":"69dcd1c53002ab764a80f5fa"}
+[2026-04-13T16:58:22.910Z] INFO: Audit log created: SIM.SIM_DELETE {"logId":"69dd20aeda184a342f1490bf","performedBy":"69dcd1c53002ab764a80f5fa"}
+[2026-04-13T16:58:25.458Z] INFO: Audit log created: SIM.SIM_DELETE {"logId":"69dd20b1da184a342f1490cb","performedBy":"69dcd1c53002ab764a80f5fa"}
+[2026-04-13T16:58:27.318Z] INFO: Audit log created: SIM.SIM_DELETE {"logId":"69dd20b3da184a342f1490d7","performedBy":"69dcd1c53002ab764a80f5fa"}
+[2026-04-13T16:58:29.358Z] INFO: Audit log created: SIM.SIM_DELETE {"logId":"69dd20b5da184a342f1490e5","performedBy":"69dcd1c53002ab764a80f5fa"}
+[2026-04-13T16:58:30.987Z] INFO: Audit log created: SIM.SIM_DELETE {"logId":"69dd20b6da184a342f1490f1","performedBy":"69dcd1c53002ab764a80f5fa"}
+[2026-04-13T16:58:33.239Z] INFO: Audit log created: SIM.SIM_DELETE {"logId":"69dd20b9da184a342f1490fd","performedBy":"69dcd1c53002ab764a80f5fa"}
+[2026-04-13T16:58:34.922Z] INFO: Audit log created: SIM.SIM_DELETE {"logId":"69dd20bada184a342f149109","performedBy":"69dcd1c53002ab764a80f5fa"}
+[2026-04-13T16:58:36.625Z] INFO: Audit log created: SIM.SIM_DELETE {"logId":"69dd20bcda184a342f149115","performedBy":"69dcd1c53002ab764a80f5fa"}
+[2026-04-13T16:58:38.758Z] INFO: Audit log created: SIM.SIM_DELETE {"logId":"69dd20beda184a342f149121","performedBy":"69dcd1c53002ab764a80f5fa"}
+[2026-04-13T17:07:02.060Z] INFO: Audit log created: SIM.SIM_BULK_CREATE {"logId":"69dd22b5da184a342f14916d","performedBy":"69dcd1c53002ab764a80f5fa","companyId":"69dcd1993002ab764a80f5e5"}
+[2026-04-13T17:07:22.641Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":19}
+[2026-04-13T17:07:22.949Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":19}
+[2026-04-13T17:07:23.268Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":19}
