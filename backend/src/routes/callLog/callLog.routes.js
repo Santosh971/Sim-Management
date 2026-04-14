@@ -5,6 +5,8 @@ const callLogController = require('../../controllers/callLog/callLog.controller'
 const { authenticate, checkCompanyAccess } = require('../../middleware/auth');
 const { checkSubscriptionLimit } = require('../../middleware/subscription');
 const { validate } = require('../../middleware/validate');
+// [PHONE NORMALIZATION FIX]
+const { normalizePhoneNumber } = require('../../utils/response');
 
 // Validation rules
 const syncValidation = [
@@ -17,11 +19,23 @@ const syncValidation = [
   body('callLogs.*.contactName').optional().isString(),
 ];
 
-// Validation rules for device sync (public endpoint)
+// [PHONE NORMALIZATION FIX] - Validation rules for device sync (public endpoint)
+// Custom validator for mobile number (accepts 10 digits or with country code)
+const validateMobileNumberForCallLog = (value) => {
+  const { valid } = normalizePhoneNumber(value);
+  return valid;
+};
+
 const deviceSyncValidation = [
   body('mobileNumber')
-    .matches(/^\d{10}$/)
-    .withMessage('Mobile number must be exactly 10 digits'),
+    .custom(validateMobileNumberForCallLog)
+    .withMessage('Invalid mobile number. Enter 10 digits or number with country code (e.g., +91XXXXXXXXXX)')
+    .trim()
+    .customSanitizer(value => {
+      // [PHONE NORMALIZATION FIX] - Sanitize: normalize the phone number
+      const { normalized } = normalizePhoneNumber(value);
+      return normalized || value;
+    }),
   body('callLogs').isArray({ min: 1 }).withMessage('Call logs array is required'),
   body('callLogs.*.phoneNumber').notEmpty().withMessage('Phone number is required'),
   body('callLogs.*.callType').isIn(['incoming', 'outgoing', 'missed']).withMessage('Invalid call type'),

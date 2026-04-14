@@ -1,6 +1,9 @@
 const CallLog = require('../../models/callLog/callLog.model');
 const Sim = require('../../models/sim/sim.model');
 const { NotFoundError, ForbiddenError } = require('../../utils/errors');
+// [PHONE NORMALIZATION FIX]
+const { buildPhoneQuery, normalizePhoneNumber } = require('../../utils/response');
+const logger = require('../../utils/logger');
 
 class CallLogService {
   async syncCallLogs(data, user, deviceId) {
@@ -29,6 +32,7 @@ class CallLogService {
   /**
    * Sync call logs from mobile device without JWT authentication
    * Uses mobile number to identify the SIM
+   * [PHONE NORMALIZATION FIX] - Handle both phone formats for backward compatibility
    */
   async deviceSync(data, deviceId) {
     const { mobileNumber, callLogs } = data;
@@ -41,8 +45,22 @@ class CallLogService {
       return { synced: 0, message: 'No call logs to sync' };
     }
 
-    // Find SIM by mobile number
-    const sim = await Sim.findOne({ mobileNumber });
+    // [PHONE NORMALIZATION FIX] - Normalize and build query for backward compatibility
+    const { normalized, original } = normalizePhoneNumber(mobileNumber);
+    const phoneQuery = buildPhoneQuery(mobileNumber);
+
+    if (!phoneQuery) {
+      throw new Error('Invalid mobile number format');
+    }
+
+    // [PHONE NORMALIZATION FIX] - Log normalization
+    logger.info('Phone number normalized for deviceSync', {
+      original: original,
+      normalized: normalized
+    });
+
+    // [PHONE NORMALIZATION FIX] - Find SIM by mobile number (matches both formats)
+    const sim = await Sim.findOne(phoneQuery);
 
     if (!sim) {
       throw new NotFoundError('SIM not found with this mobile number. Please register the SIM first.');
