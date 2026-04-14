@@ -1697,3 +1697,18 @@
 [2026-04-14T05:46:07.848Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
 [2026-04-14T05:46:07.849Z] INFO: All cron jobs initialized
 [2026-04-14T05:46:08.914Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T05:49:03.061Z] INFO: Sending email {"to":"thakarepranav000@gmail.com","subject":"Welcome to SIM Management - Sai Tech"}
+[2026-04-14T05:49:06.440Z] INFO: Email sent successfully {"messageId":"<bb2e96d2-23aa-84f0-2d74-0a33db5d438c@gmail.com>","to":"thakarepranav000@gmail.com","subject":"Welcome to SIM Management - Sai Tech","response":"250 2.0.0 OK  1776145745 d9443c01a7336-2b2d4dde346sm129747115ad.29 - gsmtp"}
+[2026-04-14T05:49:09.100Z] INFO: Notification created {"notificationId":"69ddd552d4c6d2973813d3ca","type":"system","companyId":"69dcd1993002ab764a80f5e5","userId":"69ddd54ed4c6d2973813d3c8"}
+[2026-04-14T05:49:09.134Z] INFO: Audit log created: USER.USER_CREATE {"logId":"69ddd555d4c6d2973813d3cc","performedBy":"69dcd1c53002ab764a80f5fa","companyId":"69dcd1993002ab764a80f5e5"}
+[2026-04-14T05:49:31.884Z] INFO: Audit log created: USER.USER_UPDATE {"logId":"69ddd56bd4c6d2973813d3d6","performedBy":"69dcd1c53002ab764a80f5fa","companyId":"69dcd1993002ab764a80f5e5"}
+[2026-04-14T05:51:48.061Z] INFO: Audit log created: SIM.SIM_CREATE {"logId":"69ddd5f4d4c6d2973813d462","performedBy":"69dcd1c53002ab764a80f5fa","companyId":"69dcd1993002ab764a80f5e5"}
+[2026-04-14T05:54:35.917Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T05:54:35.928Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T05:54:36.717Z] INFO: Initializing cron jobs...
+[2026-04-14T05:54:36.738Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T05:54:36.741Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T05:54:36.744Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T05:54:36.746Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T05:54:36.748Z] INFO: All cron jobs initialized
+[2026-04-14T05:54:37.696Z] INFO: Email transporter verified successfully - emails will be sent

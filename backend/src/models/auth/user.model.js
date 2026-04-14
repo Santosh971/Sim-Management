@@ -42,7 +42,8 @@ const UserSchema = new Schema({
       message: 'Invalid phone number',
     },
   },
-  // Mobile number for OTP authentication (unique identifier)
+  // [PHONE NORMALIZATION FIX] - Mobile number for OTP authentication (unique identifier)
+  // Accepts both: 10-digit format (9876543210) or with country code (+91XXXXXXXXXX)
   mobileNumber: {
     type: String,
     unique: true,
@@ -50,9 +51,15 @@ const UserSchema = new Schema({
     trim: true,
     validate: {
       validator: function (v) {
-        return !v || /^\d{10}$/.test(v);
+        // [PHONE NORMALIZATION FIX] - Accept 10 digits OR international format (+XXX...)
+        if (!v) return true; // Allow empty
+        // 10 digits only
+        if (/^\d{10}$/.test(v)) return true;
+        // International format: + followed by 10-15 digits
+        if (/^\+\d{10,15}$/.test(v)) return true;
+        return false;
       },
-      message: 'Mobile number must be 10 digits',
+      message: 'Mobile number must be 10 digits or in international format (e.g., +91XXXXXXXXXX)',
     },
   },
   // OTP authentication fields
