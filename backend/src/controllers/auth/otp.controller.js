@@ -1,5 +1,7 @@
 const otpService = require('../../services/auth/otp.service');
 const logger = require('../../utils/logger');
+// [PHONE NORMALIZATION FIX]
+const { normalizePhoneNumber } = require('../../utils/response');
 
 /**
  * Send OTP to mobile number
@@ -7,6 +9,7 @@ const logger = require('../../utils/logger');
  */
 const sendOTP = async (req, res) => {
   try {
+    // [PHONE NORMALIZATION FIX] - Normalize phone number
     const { mobileNumber } = req.body;
 
     // Validate mobile number
@@ -17,15 +20,23 @@ const sendOTP = async (req, res) => {
       });
     }
 
-    // Validate format (10 digits)
-    if (!/^\d{10}$/.test(mobileNumber)) {
+    // [PHONE NORMALIZATION FIX] - Normalize and validate phone number
+    const { normalized, original, valid } = normalizePhoneNumber(mobileNumber);
+
+    if (!valid) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid mobile number. Please enter a 10-digit number.',
+        message: 'Invalid mobile number. Please enter a valid 10-digit number or number with country code.',
       });
     }
 
-    const result = await otpService.sendOTP(mobileNumber);
+    // [PHONE NORMALIZATION FIX] - Log normalization
+    logger.info('Phone number normalized for sendOTP', {
+      original: original,
+      normalized: normalized
+    });
+
+    const result = await otpService.sendOTP(normalized);
 
     if (!result.success) {
       return res.status(400).json(result);
@@ -57,8 +68,10 @@ const verifyOTP = async (req, res) => {
       });
     }
 
-    // Validate mobile number format
-    if (!/^\d{10}$/.test(mobileNumber)) {
+    // [PHONE NORMALIZATION FIX] - Normalize and validate phone number
+    const { normalized, original, valid } = normalizePhoneNumber(mobileNumber);
+
+    if (!valid) {
       return res.status(400).json({
         success: false,
         message: 'Invalid mobile number format',
@@ -73,7 +86,13 @@ const verifyOTP = async (req, res) => {
       });
     }
 
-    const result = await otpService.verifyOTP(mobileNumber, otp);
+    // [PHONE NORMALIZATION FIX] - Log normalization
+    logger.info('Phone number normalized for verifyOTP', {
+      original: original,
+      normalized: normalized
+    });
+
+    const result = await otpService.verifyOTP(normalized, otp);
 
     if (!result.success) {
       return res.status(401).json(result);
@@ -105,15 +124,23 @@ const resendOTP = async (req, res) => {
       });
     }
 
-    // Validate format
-    if (!/^\d{10}$/.test(mobileNumber)) {
+    // [PHONE NORMALIZATION FIX] - Normalize and validate phone number
+    const { normalized, original, valid } = normalizePhoneNumber(mobileNumber);
+
+    if (!valid) {
       return res.status(400).json({
         success: false,
         message: 'Invalid mobile number format',
       });
     }
 
-    const result = await otpService.resendOTP(mobileNumber);
+    // [PHONE NORMALIZATION FIX] - Log normalization
+    logger.info('Phone number normalized for resendOTP', {
+      original: original,
+      normalized: normalized
+    });
+
+    const result = await otpService.resendOTP(normalized);
 
     if (!result.success) {
       return res.status(400).json(result);

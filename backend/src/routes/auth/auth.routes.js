@@ -5,6 +5,8 @@ const authController = require('../../controllers/auth/auth.controller');
 const otpController = require('../../controllers/auth/otp.controller');
 const { authenticate, authorize } = require('../../middleware/auth');
 const { validate } = require('../../middleware/validate');
+// [PHONE NORMALIZATION FIX]
+const { normalizePhoneNumber } = require('../../utils/response');
 
 // Validation rules
 const registerValidation = [
@@ -50,17 +52,35 @@ const resetPasswordValidation = [
   body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters'),
 ];
 
-// OTP validation rules
+// [PHONE NORMALIZATION FIX] - OTP validation rules updated
+// Custom validator for mobile number (accepts 10 digits or with country code)
+const validateMobileNumber = (value) => {
+  const { valid } = normalizePhoneNumber(value);
+  return valid;
+};
+
 const sendOTPValidation = [
   body('mobileNumber')
-    .matches(/^\d{10}$/)
-    .withMessage('Mobile number must be exactly 10 digits'),
+    .custom(validateMobileNumber)
+    .withMessage('Invalid mobile number. Enter 10 digits or number with country code (e.g., +91XXXXXXXXXX)')
+    .trim()
+    .customSanitizer(value => {
+      // Sanitize: normalize the phone number
+      const { normalized } = normalizePhoneNumber(value);
+      return normalized || value;
+    }),
 ];
 
 const verifyOTPValidation = [
   body('mobileNumber')
-    .matches(/^\d{10}$/)
-    .withMessage('Mobile number must be exactly 10 digits'),
+    .custom(validateMobileNumber)
+    .withMessage('Invalid mobile number. Enter 10 digits or number with country code (e.g., +91XXXXXXXXXX)')
+    .trim()
+    .customSanitizer(value => {
+      // Sanitize: normalize the phone number
+      const { normalized } = normalizePhoneNumber(value);
+      return normalized || value;
+    }),
   body('otp')
     .matches(/^\d{6}$/)
     .withMessage('OTP must be exactly 6 digits'),

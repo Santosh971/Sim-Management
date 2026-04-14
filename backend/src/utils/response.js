@@ -1,3 +1,80 @@
+// [PHONE NORMALIZATION FIX] - Helper function for phone number normalization
+/**
+ * Normalize phone number to international format (+91XXXXXXXXXX)
+ * @param {string} number - Phone number input (10 digits or with country code)
+ * @returns {object} - { normalized: string, original: string, valid: boolean }
+ */
+const normalizePhoneNumber = (number) => {
+  if (!number) {
+    return { normalized: null, original: null, valid: false };
+  }
+
+  // Store original input
+  const original = number;
+
+  // Remove spaces, dashes, parentheses
+  let cleaned = number.replace(/[\s\-\(\)]/g, '');
+
+  // Default country code for India
+  const DEFAULT_COUNTRY_CODE = '+91';
+
+  // Check if already has country code (starts with +)
+  if (cleaned.startsWith('+')) {
+    // Already in international format - validate length
+    // +91XXXXXXXXXX = 13 characters
+    if (cleaned.length >= 12 && cleaned.length <= 15) {
+      return { normalized: cleaned, original, valid: true };
+    }
+    return { normalized: null, original, valid: false };
+  }
+
+  // Check if it's a 10-digit number without country code
+  if (/^\d{10}$/.test(cleaned)) {
+    return {
+      normalized: `${DEFAULT_COUNTRY_CODE}${cleaned}`,
+      original,
+      valid: true
+    };
+  }
+
+  // Check if it has country code without + (e.g., 919876543210)
+  if (/^91\d{10}$/.test(cleaned)) {
+    return {
+      normalized: `+${cleaned}`,
+      original,
+      valid: true
+    };
+  }
+
+  // Invalid format
+  return { normalized: null, original, valid: false };
+};
+
+/**
+ * Build query for finding user by phone number (handles both formats)
+ * @param {string} number - Phone number to search
+ * @returns {object} - MongoDB query object
+ */
+const buildPhoneQuery = (number) => {
+  const { normalized } = normalizePhoneNumber(number);
+
+  if (!normalized) {
+    return null;
+  }
+
+  // Build query to match either format for backward compatibility
+  // This handles cases where DB has: "+919876543210" or "9876543210"
+  const last10Digits = normalized.slice(-10);
+
+  return {
+    $or: [
+      { mobileNumber: normalized },           // +91XXXXXXXXXX
+      { mobileNumber: last10Digits },         // XXXXXXXXXX (10 digits)
+      { mobileNumber: `+91${last10Digits}` }  // Ensure +91 format
+    ]
+  };
+};
+
 const successResponse = (res, data = null, message = 'Success', statusCode = 200) => {
   return res.status(statusCode).json({
     success: true,
@@ -37,4 +114,7 @@ module.exports = {
   successResponse,
   errorResponse,
   paginatedResponse,
+  // [PHONE NORMALIZATION FIX]
+  normalizePhoneNumber,
+  buildPhoneQuery,
 };

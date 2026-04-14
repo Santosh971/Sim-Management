@@ -4,6 +4,8 @@ const emailService = require('../../utils/emailService');
 const jwt = require('jsonwebtoken');
 const config = require('../../config');
 const logger = require('../../utils/logger');
+// [PHONE NORMALIZATION FIX]
+const { buildPhoneQuery, normalizePhoneNumber } = require('../../utils/response');
 
 class OTPService {
   constructor() {
@@ -24,21 +26,32 @@ class OTPService {
 
   /**
    * Find or create user by mobile number
+   * [PHONE NORMALIZATION FIX] - Handle both phone formats for backward compatibility
    */
   async findOrCreateUser(mobileNumber) {
-    let user = await User.findOne({ mobileNumber });
+    // [PHONE NORMALIZATION FIX] - Build query to match both formats
+    const phoneQuery = buildPhoneQuery(mobileNumber);
+
+    let user = await User.findOne(phoneQuery);
 
     if (!user) {
+      // [PHONE NORMALIZATION FIX] - Normalize phone number before creating user
+      const { normalized } = normalizePhoneNumber(mobileNumber);
+      const normalizedNumber = normalized || mobileNumber;
+
       // Create a new user with mobile number only
       user = new User({
-        mobileNumber,
-        email: `${mobileNumber}@mobile.user`, // Placeholder email
-        name: `User ${mobileNumber.slice(-4)}`, // Default name from last 4 digits
+        mobileNumber: normalizedNumber,  // Always store normalized
+        email: `${normalizedNumber.slice(-10)}@mobile.user`, // Placeholder email using last 10 digits
+        name: `User ${normalizedNumber.slice(-4)}`, // Default name from last 4 digits
         role: 'user',
         password: crypto.randomBytes(32).toString('hex'), // Random password (not used for mobile auth)
         mobileVerified: false,
       });
       await user.save();
+      logger.info('[PHONE NORMALIZATION FIX] New user created with normalized phone', {
+        normalizedNumber
+      });
     }
 
     return user;
@@ -144,10 +157,13 @@ class OTPService {
 
   /**
    * Verify OTP and generate JWT token
+   * [PHONE NORMALIZATION FIX] - Handle both phone formats for backward compatibility
    */
   async verifyOTP(mobileNumber, otp) {
     try {
-      const user = await User.findOne({ mobileNumber }).select('+otp +otpExpires +otpAttempts');
+      // [PHONE NORMALIZATION FIX] - Build query to match both formats
+      const phoneQuery = buildPhoneQuery(mobileNumber);
+      const user = await User.findOne(phoneQuery).select('+otp +otpExpires +otpAttempts');
 
       if (!user) {
         return {
