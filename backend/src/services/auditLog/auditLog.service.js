@@ -102,29 +102,28 @@ class AuditLogService {
 
       // Role-based filtering
       if (user.role === 'super_admin') {
-        // Super admin can see all logs
-        // No company filter needed
+        // Super admin can see all logs (no filter)
+        // companyId will be null for super admin logs
       } else if (user.role === 'admin') {
-        // Admin sees:
-        // 1. Their company's logs
-        // 2. AUTH module logs (login/logout events from all users - including mobile users with no company)
-        if (filters.module === 'AUTH' || !filters.module) {
-          // Show AUTH logs regardless of company (for security monitoring)
-          // For other modules, filter by company
-          if (!filters.module) {
-            // No specific module filter - show company logs OR auth logs
-            filters.$or = [
-              { companyId: user.companyId },
-              { module: 'AUTH' }
-            ];
-          } else {
-            // AUTH module explicitly requested - no company filter
-            // (filters.module === 'AUTH' is already set)
-          }
-        } else {
-          // Other modules - filter by company only
-          filters.companyId = user.companyId;
+        // Admin sees ONLY their company's logs
+        // They should NOT see:
+        // - Super admin logs (companyId: null)
+        // - Other companies' logs
+
+        // IMPORTANT: If admin has no company, return empty results
+        if (!user.companyId) {
+          logger.warn('Admin user has no company assigned', { userId: user._id });
+          return {
+            data: [],
+            total: 0,
+            page: 1,
+            limit: options.limit,
+            totalPages: 0,
+          };
         }
+
+        // Filter by company ID - this will EXCLUDE logs with companyId: null (super admin)
+        filters.companyId = user.companyId;
       } else {
         // Regular user sees only their own logs
         filters.performedBy = user._id;
@@ -140,6 +139,8 @@ class AuditLogService {
 
       logger.info('Fetched audit logs', {
         userId: user._id,
+        userRole: user.role,
+        companyId: user.companyId,
         filters: filters,
         count: result.data.length,
         total: result.total,
@@ -160,25 +161,29 @@ class AuditLogService {
    */
   async getLogById(logId, user) {
     try {
-      const userFilters = {};
-
-      // Role-based access control
-      if (user.role !== 'super_admin') {
-        userFilters.companyId = user.companyId;
-      }
-
-      const log = await AuditLog.getLogById(logId, userFilters);
+      const log = await AuditLog.getLogById(logId);
 
       if (!log) {
         return null;
       }
 
-      // Additional check for regular users
-      if (user.role === 'user' && log.performedBy._id.toString() !== user._id.toString()) {
-        return null;
+      // Role-based access control
+      if (user.role === 'super_admin') {
+        // Super admin can see all logs
+        return log;
+      } else if (user.role === 'admin') {
+        // Admin can only see logs from their company
+        if (log.companyId && log.companyId.toString() !== user.companyId.toString()) {
+          return null;
+        }
+        return log;
+      } else {
+        // Regular user can only see their own logs
+        if (!log.performedBy || log.performedBy._id.toString() !== user._id.toString()) {
+          return null;
+        }
+        return log;
       }
-
-      return log;
     } catch (error) {
       logger.error('Failed to fetch audit log by ID', { error: error.message, logId });
       throw error;
@@ -196,8 +201,15 @@ class AuditLogService {
       const filters = {};
 
       // Role-based filtering
-      if (user.role !== 'super_admin') {
+      if (user.role === 'super_admin') {
+        // Super admin can see all stats
+        // No company filter needed
+      } else if (user.role === 'admin') {
+        // Admin can only see their company's stats
         filters.companyId = user.companyId;
+      } else {
+        // Regular user can only see their own stats
+        filters.performedBy = user._id;
       }
 
       // Date range
@@ -210,11 +222,8 @@ class AuditLogService {
 
       const stats = await AuditLog.getActionCounts(filters);
 
-      // Get total count
-      const totalResult = await AuditLog.getLogsWithFilters(
-        user.role === 'super_admin' ? {} : { companyId: user.companyId },
-        { limit: 1 }
-      );
+      // Get total count with same filters
+      const totalResult = await AuditLog.getLogsWithFilters(filters, { limit: 1 });
 
       return {
         modules: stats,

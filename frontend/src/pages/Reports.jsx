@@ -308,7 +308,7 @@ export default function Reports() {
     const getHeaders = () => {
       switch (activeReport) {
         case 'sims':
-          return ['Mobile', 'SIM Number', 'Operator', 'Status', 'WhatsApp', 'Telegram', 'Assigned To']
+          return ['Mobile', 'Operator', 'Status', 'WhatsApp', 'Telegram', 'Assigned To']
         case 'recharges':
           return ['Mobile', 'Operator', 'Amount', 'Validity', 'Plan', 'Method', 'Date']
         case 'callLogs':

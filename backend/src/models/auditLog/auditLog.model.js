@@ -214,19 +214,9 @@ AuditLogSchema.statics.getLogsWithFilters = async function(filters = {}, options
 };
 
 // Static method to get log by ID
-AuditLogSchema.statics.getLogById = async function(logId, userFilters = {}) {
-  const query = { _id: logId };
-
-  // Apply user filters for access control
-  if (userFilters.companyId) {
-    query.$or = [
-      { companyId: userFilters.companyId },
-      { companyId: null }, // Include super admin logs
-    ];
-  }
-
-  return this.findOne(query)
-    .populate('performedBy', 'name email role')
+AuditLogSchema.statics.getLogById = async function(logId) {
+  return this.findOne({ _id: logId })
+    .populate('performedBy', 'name email role mobileNumber phone')
     .populate('companyId', 'name')
     .lean();
 };

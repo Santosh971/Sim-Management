@@ -216,10 +216,9 @@ class ReportService {
 
     switch (reportType) {
       case 'sims':
-        headers = ['Mobile Number', 'SIM Number', 'Operator', 'Circle', 'Status', 'WhatsApp', 'Telegram', 'Assigned To', 'Created'];
+        headers = ['Mobile Number', 'Operator', 'Circle', 'Status', 'WhatsApp', 'Telegram', 'Assigned To', 'Created'];
         rows = data.map(item => [
           item.mobileNumber,
-          item.simNumber,
           item.operator,
           item.circle || '',
           item.status,
@@ -301,7 +300,7 @@ class ReportService {
 
   getHeaders(reportType) {
     const headerMap = {
-      sims: ['Mobile Number', 'SIM Number', 'Operator', 'Circle', 'Status', 'WhatsApp', 'Telegram', 'Assigned To', 'Created'],
+      sims: ['Mobile Number', 'Operator', 'Circle', 'Status', 'WhatsApp', 'Telegram', 'Assigned To', 'Created'],
       recharges: ['Mobile Number', 'Operator', 'Amount', 'Validity', 'Plan', 'Payment Method', 'Date', 'Next Recharge'],
       callLogs: ['Phone Number', 'Call Type', 'Duration', 'SIM', 'Contact Name', 'Date'],
       companies: ['Company Name', 'Email', 'Status', 'Subscription', 'SIMs', 'Revenue', 'Created'],
@@ -314,7 +313,7 @@ class ReportService {
       case 'sims':
         return [
           item.mobileNumber,
-          item.simNumber,
+
           item.operator,
           item.circle || '',
           item.status,

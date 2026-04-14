@@ -76,8 +76,11 @@ const AuditLogs = () => {
       const data = response.data
 
       setLogs(data.data || [])
-      setTotal(data.total || 0)
-      setTotalPages(data.totalPages || 1)
+
+      // Handle pagination data from API response
+      const paginationData = data.pagination || {}
+      setTotal(paginationData.total || 0)
+      setTotalPages(paginationData.totalPages || 1)
     } catch (err) {
       console.error('Failed to fetch audit logs:', err)
       setError('Failed to load audit logs. Please try again.')
@@ -435,13 +438,14 @@ const AuditLogs = () => {
           )}
 
           {/* Pagination */}
-          {!loading && logs.length > 0 && (
+          {!loading && total > 0 && (
             <div className="flex items-center justify-between px-6 py-4 border-t border-secondary-200">
               <p className="text-sm text-secondary-500">
-                Page {page} of {totalPages}
+                Page {page} of {totalPages} ({total} total logs)
               </p>
               <div className="flex gap-2">
                 <button
+                  type="button"
                   onClick={() => setPage(page - 1)}
                   disabled={page === 1}
                   className="flex items-center gap-1 px-3 py-1.5 text-sm border border-secondary-200 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-secondary-50 transition-colors"
@@ -450,8 +454,9 @@ const AuditLogs = () => {
                   Previous
                 </button>
                 <button
+                  type="button"
                   onClick={() => setPage(page + 1)}
-                  disabled={page === totalPages}
+                  disabled={page >= totalPages}
                   className="flex items-center gap-1 px-3 py-1.5 text-sm border border-secondary-200 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-secondary-50 transition-colors"
                 >
                   Next
