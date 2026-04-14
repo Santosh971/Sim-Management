@@ -56,15 +56,27 @@ class CallLogService {
     // [PHONE NORMALIZATION FIX] - Log normalization
     logger.info('Phone number normalized for deviceSync', {
       original: original,
-      normalized: normalized
+      normalized: normalized,
+      query: JSON.stringify(phoneQuery)
     });
 
     // [PHONE NORMALIZATION FIX] - Find SIM by mobile number (matches both formats)
     const sim = await Sim.findOne(phoneQuery);
 
     if (!sim) {
+      logger.error('SIM not found for deviceSync', {
+        phoneQuery: JSON.stringify(phoneQuery),
+        originalMobileNumber: original,
+        normalizedMobileNumber: normalized
+      });
       throw new NotFoundError('SIM not found with this mobile number. Please register the SIM first.');
     }
+
+    logger.info('SIM found for deviceSync', {
+      simId: sim._id,
+      simMobileNumber: sim.mobileNumber,
+      companyId: sim.companyId
+    });
 
     // Get company from SIM
     const companyId = sim.companyId;

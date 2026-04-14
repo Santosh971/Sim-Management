@@ -227,6 +227,27 @@ CallLogSchema.statics.getTopContacts = async function (companyId, limit = 10) {
 
 // Method to sync from mobile device
 CallLogSchema.statics.syncFromDevice = async function (companyId, simId, callLogs, deviceId) {
+  const logger = require('../../utils/logger');
+
+  logger.info('syncFromDevice called', {
+    companyId: companyId?.toString(),
+    simId: simId?.toString(),
+    callLogsCount: callLogs?.length,
+    deviceId
+  });
+
+  if (!companyId || !simId) {
+    logger.error('syncFromDevice missing required fields', {
+      companyId: companyId?.toString(),
+      simId: simId?.toString()
+    });
+    throw new Error('companyId and simId are required');
+  }
+
+  if (!callLogs || callLogs.length === 0) {
+    return { synced: 0, message: 'No call logs to sync' };
+  }
+
   const bulkOps = callLogs.map((log) => ({
     updateOne: {
       filter: {
@@ -253,11 +274,34 @@ CallLogSchema.statics.syncFromDevice = async function (companyId, simId, callLog
     },
   }));
 
-  if (bulkOps.length > 0) {
-    await this.bulkWrite(bulkOps);
-  }
+  logger.info('Bulk operations prepared', {
+    operationsCount: bulkOps.length,
+    firstOperation: bulkOps[0] ? JSON.stringify(bulkOps[0].updateOne.filter) : null
+  });
 
-  return { synced: callLogs.length };
+  try {
+    if (bulkOps.length > 0) {
+      const result = await this.bulkWrite(bulkOps);
+      logger.info('Bulk write result', {
+        matchedCount: result.matchedCount,
+        modifiedCount: result.modifiedCount,
+        upsertedCount: result.upsertedCount,
+        upsertedIds: result.upsertedIds
+      });
+      return {
+        synced: callLogs.length,
+        inserted: result.upsertedCount,
+        matched: result.matchedCount
+      };
+    }
+    return { synced: 0 };
+  } catch (error) {
+    logger.error('Bulk write error in syncFromDevice', {
+      error: error.message,
+      stack: error.stack
+    });
+    throw error;
+  }
 };
 
 module.exports = mongoose.model('CallLog', CallLogSchema);

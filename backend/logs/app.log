@@ -1757,3 +1757,48 @@
 [2026-04-14T06:05:06.595Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
 [2026-04-14T06:05:06.596Z] INFO: All cron jobs initialized
 [2026-04-14T06:05:07.545Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T06:11:47.924Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T06:11:47.934Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T06:11:48.693Z] INFO: Initializing cron jobs...
+[2026-04-14T06:11:48.715Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T06:11:48.718Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T06:11:48.720Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T06:11:48.723Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T06:11:48.724Z] INFO: All cron jobs initialized
+[2026-04-14T06:11:49.614Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T06:12:22.308Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T06:12:22.317Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T06:12:22.985Z] INFO: Initializing cron jobs...
+[2026-04-14T06:12:23.007Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T06:12:23.010Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T06:12:23.012Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T06:12:23.015Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T06:12:23.016Z] INFO: All cron jobs initialized
+[2026-04-14T06:12:24.014Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T06:12:39.720Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T06:12:39.729Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T06:12:40.436Z] INFO: Initializing cron jobs...
+[2026-04-14T06:12:40.457Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T06:12:40.460Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T06:12:40.462Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T06:12:40.464Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T06:12:40.466Z] INFO: All cron jobs initialized
+[2026-04-14T06:12:41.550Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T06:13:28.199Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T06:13:28.209Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T06:13:28.980Z] INFO: Initializing cron jobs...
+[2026-04-14T06:13:29.003Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T06:13:29.006Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T06:13:29.008Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T06:13:29.010Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T06:13:29.012Z] INFO: All cron jobs initialized
+[2026-04-14T06:13:29.903Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T06:13:59.352Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T06:13:59.362Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T06:14:00.263Z] INFO: Initializing cron jobs...
+[2026-04-14T06:14:00.287Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T06:14:00.289Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T06:14:00.292Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T06:14:00.294Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T06:14:00.295Z] INFO: All cron jobs initialized
+[2026-04-14T06:14:01.114Z] INFO: Email transporter verified successfully - emails will be sent

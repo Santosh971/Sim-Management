@@ -51,7 +51,8 @@ const normalizePhoneNumber = (number) => {
 };
 
 /**
- * Build query for finding user by phone number (handles both formats)
+ * Build query for finding user/SIM by phone number (handles both formats)
+ * [PHONE NORMALIZATION FIX] - Comprehensive query to match all possible formats
  * @param {string} number - Phone number to search
  * @returns {object} - MongoDB query object
  */
@@ -62,16 +63,21 @@ const buildPhoneQuery = (number) => {
     return null;
   }
 
-  // Build query to match either format for backward compatibility
-  // This handles cases where DB has: "+919876543210" or "9876543210"
+  // Get the last 10 digits (actual phone number without country code)
   const last10Digits = normalized.slice(-10);
+  const countryCodeWithoutPlus = normalized.replace('+', ''); // e.g., "919876543210"
+
+  // [PHONE NORMALIZATION FIX] - Build comprehensive query to match ALL possible formats
+  // Use Set to avoid duplicate conditions
+  const possibleNumbers = [...new Set([
+    normalized,              // +91XXXXXXXXXX (normalized format)
+    last10Digits,            // XXXXXXXXXX (10 digits only)
+    `+91${last10Digits}`,    // +91 + 10 digits (explicit +91)
+    countryCodeWithoutPlus   // 91XXXXXXXXXX (without +)
+  ])];
 
   return {
-    $or: [
-      { mobileNumber: normalized },           // +91XXXXXXXXXX
-      { mobileNumber: last10Digits },         // XXXXXXXXXX (10 digits)
-      { mobileNumber: `+91${last10Digits}` }  // Ensure +91 format
-    ]
+    $or: possibleNumbers.map(num => ({ mobileNumber: num }))
   };
 };
 
