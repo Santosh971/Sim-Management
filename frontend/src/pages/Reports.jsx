@@ -352,9 +352,9 @@ export default function Reports() {
         description="Generate and export reports"
         action={
           <div style={{ display: 'flex', gap: '8px' }}>
-            <Button variant="secondary" icon={FiDownload} onClick={() => handleExport('csv')} loading={loading}>
+            {/* <Button variant="secondary" icon={FiDownload} onClick={() => handleExport('csv')} loading={loading}>
               CSV
-            </Button>
+            </Button>    */}
             <Button icon={FiDownload} onClick={() => handleExport('excel')} loading={loading}>
               Excel
             </Button>
