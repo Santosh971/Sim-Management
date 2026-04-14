@@ -1844,3 +1844,175 @@
 [2026-04-14T06:54:12.722Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
 [2026-04-14T06:54:12.723Z] INFO: All cron jobs initialized
 [2026-04-14T06:54:13.749Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T07:15:34.384Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:15:34.449Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:15:34.907Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:15:39.852Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"module":"USER","companyId":"69dcd1993002ab764a80f5e5"},"count":4,"total":4}
+[2026-04-14T07:15:55.375Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:15:55.438Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:15:55.865Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:15:59.427Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:15:59.491Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:15:59.918Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:16:29.102Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:16:29.166Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:16:29.599Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:16:33.976Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:16:34.037Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:16:34.479Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:16:41.037Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"module":"SIM","companyId":"69dcd1993002ab764a80f5e5"},"count":5,"total":5}
+[2026-04-14T07:17:38.768Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:17:38.829Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:17:39.270Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:18:01.043Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:18:01.104Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:18:01.554Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:18:02.696Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:18:02.764Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:18:03.027Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:18:03.088Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:18:03.571Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:18:03.647Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:18:03.783Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:18:03.847Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:18:04.281Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"companyId":"69dcd1993002ab764a80f5e5"},"count":15,"total":22}
+[2026-04-14T07:21:37.604Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T07:21:37.615Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T07:21:38.502Z] INFO: Initializing cron jobs...
+[2026-04-14T07:21:38.546Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T07:21:38.548Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T07:21:38.549Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T07:21:38.551Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T07:21:38.551Z] INFO: All cron jobs initialized
+[2026-04-14T07:21:39.507Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T07:22:11.881Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T07:22:11.888Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T07:22:12.533Z] INFO: Initializing cron jobs...
+[2026-04-14T07:22:12.556Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T07:22:12.558Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T07:22:12.559Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T07:22:12.561Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T07:22:12.561Z] INFO: All cron jobs initialized
+[2026-04-14T07:22:13.654Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T07:23:03.737Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T07:23:03.750Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T07:23:09.496Z] INFO: Initializing cron jobs...
+[2026-04-14T07:23:09.522Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T07:23:09.524Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T07:23:09.526Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T07:23:09.527Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T07:23:09.528Z] INFO: All cron jobs initialized
+[2026-04-14T07:23:10.512Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T07:23:46.455Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T07:23:46.463Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T07:23:49.289Z] INFO: Initializing cron jobs...
+[2026-04-14T07:23:49.313Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T07:23:49.316Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T07:23:49.318Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T07:23:49.319Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T07:23:49.320Z] INFO: All cron jobs initialized
+[2026-04-14T07:23:52.482Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T07:24:02.855Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":30}
+[2026-04-14T07:24:02.943Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":30}
+[2026-04-14T07:24:03.285Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":30}
+[2026-04-14T07:24:16.322Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T07:24:16.330Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T07:24:17.223Z] INFO: Initializing cron jobs...
+[2026-04-14T07:24:17.247Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T07:24:17.249Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T07:24:17.250Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T07:24:17.252Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T07:24:17.253Z] INFO: All cron jobs initialized
+[2026-04-14T07:24:18.350Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T07:24:26.543Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T07:24:26.556Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T07:24:27.196Z] INFO: Initializing cron jobs...
+[2026-04-14T07:24:27.216Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T07:24:27.218Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T07:24:27.219Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T07:24:27.221Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T07:24:27.221Z] INFO: All cron jobs initialized
+[2026-04-14T07:24:28.214Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T07:25:10.575Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T07:25:10.588Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T07:25:11.342Z] INFO: Initializing cron jobs...
+[2026-04-14T07:25:11.365Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T07:25:11.366Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T07:25:11.368Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T07:25:11.369Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T07:25:11.370Z] INFO: All cron jobs initialized
+[2026-04-14T07:25:12.310Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T07:31:23.546Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":31}
+[2026-04-14T07:31:24.356Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":31}
+[2026-04-14T07:31:48.276Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T07:31:48.289Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T07:31:49.485Z] INFO: Initializing cron jobs...
+[2026-04-14T07:31:49.538Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T07:31:49.541Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T07:31:49.544Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T07:31:49.547Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T07:31:49.548Z] INFO: All cron jobs initialized
+[2026-04-14T07:31:50.448Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T07:32:32.884Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":32}
+[2026-04-14T07:32:32.995Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":32}
+[2026-04-14T07:32:33.312Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":32}
+[2026-04-14T07:33:22.930Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":33}
+[2026-04-14T07:33:23.082Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":33}
+[2026-04-14T07:33:23.408Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":33}
+[2026-04-14T07:43:01.720Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T07:43:01.732Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T07:43:02.588Z] INFO: Initializing cron jobs...
+[2026-04-14T07:43:02.614Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T07:43:02.616Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T07:43:02.618Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T07:43:02.619Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T07:43:02.620Z] INFO: All cron jobs initialized
+[2026-04-14T07:43:03.481Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T07:43:20.215Z] INFO: Email configuration check {"hasHost":true,"host":"smtp.gmail.com","port":587,"hasUser":true,"user":"santoshshimpankar.ukvalley@gmail.com","hasPass":true,"passLength":16,"hasFrom":true}
+[2026-04-14T07:43:20.222Z] INFO: Email service initialized successfully {"host":"smtp.gmail.com","port":587,"user":"santoshshimpankar.ukvalley@gmail.com"}
+[2026-04-14T07:43:20.882Z] INFO: Initializing cron jobs...
+[2026-04-14T07:43:20.902Z] INFO: Job recharge-reminder scheduled: 0 9 * * *
+[2026-04-14T07:43:20.904Z] INFO: Job inactive-sim-alert scheduled: 0 10 * * *
+[2026-04-14T07:43:20.905Z] INFO: Job subscription-expiry-check scheduled: 0 8 * * *
+[2026-04-14T07:43:20.906Z] INFO: Job data-cleanup scheduled: 0 2 * * 0
+[2026-04-14T07:43:20.907Z] INFO: All cron jobs initialized
+[2026-04-14T07:43:21.816Z] INFO: Email transporter verified successfully - emails will be sent
+[2026-04-14T07:43:59.358Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":40}
+[2026-04-14T07:44:00.312Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":40}
+[2026-04-14T07:44:16.340Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":40}
+[2026-04-14T07:44:17.321Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":40}
+[2026-04-14T07:44:44.426Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":40}
+[2026-04-14T07:44:44.492Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":40}
+[2026-04-14T07:44:44.919Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":40}
+[2026-04-14T07:44:46.670Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":40}
+[2026-04-14T07:44:46.738Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":40}
+[2026-04-14T07:44:47.127Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":40}
+[2026-04-14T07:44:47.712Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":40}
+[2026-04-14T07:44:47.770Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":40}
+[2026-04-14T07:44:48.223Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":40}
+[2026-04-14T07:45:10.618Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":40}
+[2026-04-14T07:45:10.705Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":40}
+[2026-04-14T07:45:11.093Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":40}
+[2026-04-14T07:45:30.980Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"module":"USER","companyId":"69dcd1993002ab764a80f5e5"},"count":4,"total":4}
+[2026-04-14T07:45:38.398Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"module":"REPORT","companyId":"69dcd1993002ab764a80f5e5"},"count":7,"total":7}
+[2026-04-14T07:45:43.245Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"module":"CALL_LOG","companyId":"69dcd1993002ab764a80f5e5"},"count":0,"total":0}
+[2026-04-14T07:45:49.345Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"module":"PAYMENT","companyId":"69dcd1993002ab764a80f5e5"},"count":0,"total":0}
+[2026-04-14T07:45:52.107Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"module":"DASHBOARD","companyId":"69dcd1993002ab764a80f5e5"},"count":0,"total":0}
+[2026-04-14T07:45:54.352Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"module":"SETTINGS","companyId":"69dcd1993002ab764a80f5e5"},"count":0,"total":0}
+[2026-04-14T07:45:57.677Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"module":"RECHARGE","companyId":"69dcd1993002ab764a80f5e5"},"count":1,"total":1}
+[2026-04-14T07:46:00.820Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"module":"SIM","companyId":"69dcd1993002ab764a80f5e5"},"count":5,"total":5}
+[2026-04-14T07:46:04.261Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"module":"AUTH"},"count":15,"total":20}
+[2026-04-14T07:46:21.270Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":40}
+[2026-04-14T07:46:26.307Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":40}
+[2026-04-14T07:46:26.369Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":40}
+[2026-04-14T07:46:26.799Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":40}
+[2026-04-14T07:49:02.565Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":41}
+[2026-04-14T07:49:02.648Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":41}
+[2026-04-14T07:49:03.057Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":41}
+[2026-04-14T07:49:14.813Z] INFO: Audit log created: AUTH.USER_LOGOUT {"logId":"69ddf17a6caa7ca8ddb2686f","performedBy":"69dcd1c53002ab764a80f5fa","companyId":"69dcd1993002ab764a80f5e5"}
+[2026-04-14T07:49:26.550Z] INFO: Audit log created: AUTH.USER_LOGIN {"logId":"69ddf1866caa7ca8ddb26874","performedBy":"69dcd1c53002ab764a80f5fa","companyId":"69dcd1993002ab764a80f5e5"}
+[2026-04-14T07:49:30.723Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":43}
+[2026-04-14T07:49:30.850Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":43}
+[2026-04-14T07:49:31.223Z] INFO: Fetched audit logs {"userId":"69dcd1c53002ab764a80f5fa","filters":{"$or":[{"companyId":"69dcd1993002ab764a80f5e5"},{"module":"AUTH"}]},"count":15,"total":43}
+[2026-04-14T07:52:43.970Z] INFO: Fetched notifications {"userId":"69dcd1c53002ab764a80f5fa","count":5,"total":5}
+[2026-04-14T07:53:38.341Z] INFO: Audit log created: AUTH.USER_LOGIN {"logId":"69ddf2826caa7ca8ddb26955","performedBy":"69dcd04e1a2af7ad09132043","companyId":null}

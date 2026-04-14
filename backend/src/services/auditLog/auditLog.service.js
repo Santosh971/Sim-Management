@@ -12,8 +12,8 @@ class AuditLogService {
    * @param {string} params.action - Action type (e.g., "SIM_CREATE")
    * @param {string} params.module - Module name (e.g., "SIM")
    * @param {string} params.description - Human-readable description
-   * @param {ObjectId} params.performedBy - User ID who performed the action
-   * @param {string} params.role - User's role
+   * @param {ObjectId} [params.performedBy] - User ID who performed the action (null for anonymous)
+   * @param {string} [params.role] - User's role (defaults to 'anonymous')
    * @param {ObjectId} [params.companyId] - Company ID (null for super admin)
    * @param {ObjectId} [params.entityId] - Related entity ID
    * @param {string} [params.entityType] - Type of the entity
@@ -54,8 +54,8 @@ class AuditLogService {
         action,
         module,
         description,
-        performedBy,
-        role,
+        performedBy: performedBy || null, // [AUDIT LOG FIX] - Allow null
+        role: role || 'anonymous', // [AUDIT LOG FIX] - Default to anonymous
         companyId: companyId || null,
         entityId: entityId || null,
         entityType: entityType || null,
@@ -67,8 +67,8 @@ class AuditLogService {
       if (log) {
         logger.info(`Audit log created: ${module}.${action}`, {
           logId: log._id,
-          performedBy,
-          companyId,
+          performedBy: performedBy || 'anonymous',
+          companyId: companyId || null,
         });
       }
 
@@ -105,8 +105,26 @@ class AuditLogService {
         // Super admin can see all logs
         // No company filter needed
       } else if (user.role === 'admin') {
-        // Admin sees only their company's logs
-        filters.companyId = user.companyId;
+        // Admin sees:
+        // 1. Their company's logs
+        // 2. AUTH module logs (login/logout events from all users - including mobile users with no company)
+        if (filters.module === 'AUTH' || !filters.module) {
+          // Show AUTH logs regardless of company (for security monitoring)
+          // For other modules, filter by company
+          if (!filters.module) {
+            // No specific module filter - show company logs OR auth logs
+            filters.$or = [
+              { companyId: user.companyId },
+              { module: 'AUTH' }
+            ];
+          } else {
+            // AUTH module explicitly requested - no company filter
+            // (filters.module === 'AUTH' is already set)
+          }
+        } else {
+          // Other modules - filter by company only
+          filters.companyId = user.companyId;
+        }
       } else {
         // Regular user sees only their own logs
         filters.performedBy = user._id;

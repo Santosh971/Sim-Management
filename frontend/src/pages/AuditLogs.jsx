@@ -408,10 +408,13 @@ const AuditLogs = () => {
                           </div>
                           <div>
                             <p className="text-sm font-medium text-secondary-900">
-                              {log.performedBy?.name || 'Unknown'}
+                              {log.performedBy?.name || log.metadata?.mobileNumber || 'System'}
                             </p>
                             <p className="text-xs text-secondary-500">
-                              {log.performedBy?.email || ''}
+                              {/* Show real email if not auto-generated, otherwise show mobile number */}
+                              {log.performedBy?.email && !log.performedBy.email.includes('@mobile.user')
+                                ? log.performedBy.email
+                                : log.performedBy?.mobileNumber || log.performedBy?.phone || (log.metadata?.mobileNumber ? 'Mobile User' : '')}
                             </p>
                           </div>
                         </div>

@@ -39,6 +39,21 @@ const sendOTP = async (req, res) => {
 
     const result = await otpService.sendOTP(normalized);
 
+    // [AUDIT LOG] - Log OTP send attempt (no user session yet, so performedBy is null)
+    await auditLogService.logAction({
+      action: 'OTP_SEND',
+      module: 'AUTH',
+      description: `OTP sent to mobile number ${normalized}`,
+      performedBy: null, // No user session yet
+      role: 'user',
+      companyId: null,
+      metadata: {
+        mobileNumber: normalized,
+        success: result.success,
+      },
+      req,
+    });
+
     if (!result.success) {
       return res.status(400).json(result);
     }

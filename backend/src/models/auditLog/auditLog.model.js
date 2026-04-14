@@ -33,19 +33,19 @@ const AuditLogSchema = new Schema({
     maxlength: [1000, 'Description cannot exceed 1000 characters'],
   },
 
-  // User who performed the action
+  // User who performed the action (null for anonymous actions like OTP_SEND)
   performedBy: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-    required: [true, 'Performed by is required'],
+    required: false, // [AUDIT LOG FIX] - Allow null for anonymous actions
     index: true,
   },
 
   // Role of the user at the time of action
   role: {
     type: String,
-    enum: ['super_admin', 'admin', 'user'],
-    required: [true, 'Role is required'],
+    enum: ['super_admin', 'admin', 'user', 'anonymous'],
+    required: false, // [AUDIT LOG FIX] - Allow null for anonymous actions
   },
 
   // Company (null for super admin)
@@ -112,9 +112,9 @@ AuditLogSchema.statics.createLog = async function(data) {
       action: data.action,
       module: data.module,
       description: data.description,
-      performedBy: data.performedBy,
-      role: data.role,
-      companyId: data.companyId,
+      performedBy: data.performedBy || null, // [AUDIT LOG FIX] - Allow null for anonymous actions
+      role: data.role || 'anonymous', // [AUDIT LOG FIX] - Default to anonymous
+      companyId: data.companyId || null,
       entityId: data.entityId,
       entityType: data.entityType,
       metadata: data.metadata || {},
@@ -142,6 +142,11 @@ AuditLogSchema.statics.getLogsWithFilters = async function(filters = {}, options
   } = options;
 
   const query = {};
+
+  // Handle $or queries (for admin to see AUTH logs from all users)
+  if (filters.$or) {
+    query.$or = filters.$or;
+  }
 
   // Apply filters
   if (filters.companyId) {
@@ -190,7 +195,7 @@ AuditLogSchema.statics.getLogsWithFilters = async function(filters = {}, options
   const skip = (parseInt(page) - 1) * parseInt(limit);
 
   const logs = await this.find(query)
-    .populate('performedBy', 'name email role')
+    .populate('performedBy', 'name email role mobileNumber phone')
     .populate('companyId', 'name')
     .sort({ [sortBy]: sortOrder })
     .skip(skip)
