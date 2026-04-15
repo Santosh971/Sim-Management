@@ -22,18 +22,23 @@ const preferencesValidation = [
   body('language').optional().isString(),
 ];
 
+const idValidation = [
+  param('id').isMongoId().withMessage('Invalid notification ID'),
+];
+
 // All routes require authentication
 router.use(authenticate);
 
-// Routes
+// Routes - IMPORTANT: Static routes must come BEFORE dynamic routes (/:id)
 router.get('/', queryValidation, validate, notificationController.getAll);
 router.get('/user', queryValidation, validate, notificationController.getUserNotifications);
 router.get('/unread-count', notificationController.getUnreadCount);
-router.get('/:id', notificationController.getById);
-router.patch('/:id/read', notificationController.markAsRead);
 router.post('/mark-all-read', notificationController.markAllAsRead);
-router.delete('/:id', notificationController.delete);
 router.post('/clear-read', notificationController.clearRead);
 router.put('/preferences', preferencesValidation, validate, notificationController.updatePreferences);
+// Dynamic routes with :id must come AFTER all static routes
+router.get('/:id', idValidation, validate, notificationController.getById);
+router.patch('/:id/read', idValidation, validate, notificationController.markAsRead);
+router.delete('/:id', idValidation, validate, notificationController.delete);
 
 module.exports = router;

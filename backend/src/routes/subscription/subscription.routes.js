@@ -32,15 +32,16 @@ router.get('/compare', subscriptionController.compare);
 router.use(authenticate);
 
 // All authenticated users can view plans
+// IMPORTANT: Static routes must come BEFORE dynamic routes (/:id)
 router.get('/', subscriptionController.getAll);
-router.get('/:id', subscriptionController.getById);
 router.get('/stats', authorize('super_admin'), subscriptionController.getStats);
+router.get('/:id', subscriptionController.getById);
 
 // Super admin only routes
 router.post('/', authorize('super_admin'), createPlanValidation, validate, subscriptionController.create);
+router.post('/initialize', authorize('super_admin'), subscriptionController.initialize);
 router.put('/:id', authorize('super_admin'), updatePlanValidation, validate, subscriptionController.update);
 router.delete('/:id', authorize('super_admin'), subscriptionController.delete);
 router.patch('/:id/toggle', authorize('super_admin'), subscriptionController.toggleStatus);
-router.post('/initialize', authorize('super_admin'), subscriptionController.initialize);
 
 module.exports = router;

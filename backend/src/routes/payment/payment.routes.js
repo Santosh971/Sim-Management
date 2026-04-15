@@ -20,6 +20,7 @@ const verifyPaymentValidation = [
 // All routes require authentication
 router.use(authenticate);
 
+// IMPORTANT: Static routes must come BEFORE dynamic routes (/:id)
 // Create order (admin/super_admin)
 router.post(
   '/create-order',
@@ -39,15 +40,15 @@ router.post(
 // Get payment history
 router.get('/history', paymentController.getHistory);
 
-// Get single payment
-router.get('/:id', paymentController.getPayment);
-
 // Revenue stats (Super Admin only)
 router.get(
   '/stats/revenue',
   authorize('super_admin'),
   paymentController.getStats
 );
+
+// Dynamic routes with :id must come AFTER all static routes
+router.get('/:id', paymentController.getPayment);
 
 // Webhook endpoint (no auth required - called by Razorpay)
 router.post('/webhook', paymentController.handleWebhook);

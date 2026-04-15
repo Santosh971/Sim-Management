@@ -27,12 +27,14 @@ const bulkUpdateValidation = [
 // All routes require authentication
 router.use(authenticate);
 
-// Routes
+// Routes - IMPORTANT: Static routes must come BEFORE dynamic routes (/:simId)
 router.get('/overview', statusController.getOverview);
+router.post('/bulk', bulkUpdateValidation, validate, statusController.bulkUpdate);
+
+// Dynamic routes with :simId must come AFTER all static routes
 router.get('/:simId', statusController.getStatus);
 router.get('/:simId/history', statusController.getHistory);
 router.put('/:simId/whatsapp', checkSubscriptionLimit('whatsappStatus'), updateWhatsAppValidation, validate, statusController.updateWhatsApp);
 router.put('/:simId/telegram', checkSubscriptionLimit('whatsappStatus'), updateTelegramValidation, validate, statusController.updateTelegram);
-router.post('/bulk', bulkUpdateValidation, validate, statusController.bulkUpdate);
 
 module.exports = router;

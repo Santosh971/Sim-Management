@@ -81,24 +81,26 @@ const queryValidation = [
 router.use(authenticate);
 router.use(authorize('super_admin'));
 
-// Routes
+// Routes - IMPORTANT: Static routes must come BEFORE dynamic routes (/:id)
 router.post('/', createCompanyValidation, validate, companyController.create);
 router.get('/', queryValidation, validate, companyController.getAll);
 router.get('/expiring', companyController.getExpiring);
 router.get('/overview', companyController.getDashboardOverview);
+
+// Admin Management Routes - Static routes before company :id routes
+router.get('/admins/:adminId', companyController.getAdminById);
+router.put('/admins/:adminId', updateAdminValidation, validate, companyController.updateAdmin);
+router.delete('/admins/:adminId', companyController.deleteAdmin);
+router.post('/admins/:adminId/reset-password', resetPasswordValidation, validate, companyController.resetAdminPassword);
+
+// Dynamic routes with :id must come AFTER all static routes
 router.get('/:id', companyController.getById);
 router.put('/:id', updateCompanyValidation, validate, companyController.update);
 router.delete('/:id', companyController.delete);
 router.post('/:id/renew-subscription', renewSubscriptionValidation, validate, companyController.renewSubscription);
 router.post('/:id/extend-trial', extendTrialValidation, validate, companyController.extendTrial);
 router.get('/:id/stats', companyController.getStats);
-
-// Admin Management Routes
 router.post('/:companyId/admins', createAdminValidation, validate, companyController.createAdmin);
 router.get('/:companyId/admins', companyController.getCompanyAdmins);
-router.get('/admins/:adminId', companyController.getAdminById);
-router.put('/admins/:adminId', updateAdminValidation, validate, companyController.updateAdmin);
-router.delete('/admins/:adminId', companyController.deleteAdmin);
-router.post('/admins/:adminId/reset-password', resetPasswordValidation, validate, companyController.resetAdminPassword);
 
 module.exports = router;

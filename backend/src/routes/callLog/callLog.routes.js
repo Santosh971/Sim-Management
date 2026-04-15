@@ -73,13 +73,15 @@ router.post('/device-sync', deviceSyncValidation, validate, callLogController.de
 // All routes below require authentication
 router.use(authenticate);
 
-// Routes
+// Routes - IMPORTANT: Static routes must come BEFORE dynamic routes (/:id)
 router.post('/sync', checkSubscriptionLimit('callLogSync'), syncValidation, validate, callLogController.sync);
 router.get('/', queryValidation, validate, callLogController.getAll);
 router.get('/stats', callLogController.getStats);
 router.get('/export', callLogController.export);
-router.get('/:id', callLogController.getById);
 router.get('/sim/:simId/stats', callLogController.getSimStats);
+
+// Dynamic routes with :id must come AFTER all static routes
+router.get('/:id', callLogController.getById);
 router.patch('/:id/flag', flagValidation, validate, callLogController.flag);
 
 module.exports = router;

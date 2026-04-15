@@ -102,18 +102,18 @@ const queryValidation = [
   query('sortOrder').optional().isIn(['asc', 'desc']),
 ];
 
-// Routes
+// Routes - IMPORTANT: Static routes must come BEFORE dynamic routes (/:id)
 router.post('/', createRechargeValidation, validate, rechargeController.create);
 router.get('/', queryValidation, validate, rechargeController.getAll);
 router.get('/upcoming', rechargeController.getUpcoming);
 router.get('/overdue', rechargeController.getOverdue);
 router.get('/stats', rechargeController.getStats);
 router.get('/history/:simId', rechargeController.getHistory);
+router.post('/process-reminders', authorize('super_admin'), rechargeController.processReminders);
+
+// Dynamic routes with :id must come AFTER all static routes
 router.get('/:id', rechargeController.getById);
 router.put('/:id', updateRechargeValidation, validate, rechargeController.update);
 router.delete('/:id', authorize('super_admin', 'admin'), rechargeController.delete);
-
-// Admin only - manual trigger
-router.post('/process-reminders', authorize('super_admin'), rechargeController.processReminders);
 
 module.exports = router;
