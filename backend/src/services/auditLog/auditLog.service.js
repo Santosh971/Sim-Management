@@ -1,5 +1,6 @@
 const AuditLog = require('../../models/auditLog/auditLog.model');
 const logger = require('../../utils/logger');
+const mongoose = require('mongoose');
 
 /**
  * Audit Log Service
@@ -122,8 +123,11 @@ class AuditLogService {
           };
         }
 
-        // Filter by company ID - this will EXCLUDE logs with companyId: null (super admin)
-        filters.companyId = user.companyId;
+        // [AUDIT LOG FIX] - Convert companyId to ObjectId for proper comparison
+        // This ensures string companyIds are properly compared with ObjectId in database
+        filters.companyId = user.companyId instanceof mongoose.Types.ObjectId
+          ? user.companyId
+          : new mongoose.Types.ObjectId(user.companyId);
       } else {
         // Regular user sees only their own logs
         filters.performedBy = user._id;
@@ -173,7 +177,11 @@ class AuditLogService {
         return log;
       } else if (user.role === 'admin') {
         // Admin can only see logs from their company
-        if (log.companyId && log.companyId.toString() !== user.companyId.toString()) {
+        // [AUDIT LOG FIX] - Ensure proper ObjectId comparison
+        const adminCompanyId = user.companyId instanceof mongoose.Types.ObjectId
+          ? user.companyId.toString()
+          : user.companyId;
+        if (log.companyId && log.companyId.toString() !== adminCompanyId) {
           return null;
         }
         return log;
@@ -206,7 +214,10 @@ class AuditLogService {
         // No company filter needed
       } else if (user.role === 'admin') {
         // Admin can only see their company's stats
-        filters.companyId = user.companyId;
+        // [AUDIT LOG FIX] - Convert companyId to ObjectId for proper comparison
+        filters.companyId = user.companyId instanceof mongoose.Types.ObjectId
+          ? user.companyId
+          : new mongoose.Types.ObjectId(user.companyId);
       } else {
         // Regular user can only see their own stats
         filters.performedBy = user._id;

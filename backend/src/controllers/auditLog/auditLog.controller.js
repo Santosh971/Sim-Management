@@ -2,6 +2,7 @@ const auditLogService = require('../../services/auditLog/auditLog.service');
 const { successResponse, paginatedResponse } = require('../../utils/response');
 const { NotFoundError, BadRequestError } = require('../../utils/errors');
 const logger = require('../../utils/logger');
+const mongoose = require('mongoose');
 
 class AuditLogController {
   /**
@@ -108,8 +109,11 @@ class AuditLogController {
       if (endDate) filters.endDate = endDate;
 
       // Apply role-based filtering
+      // [AUDIT LOG FIX] - Convert companyId to ObjectId for proper comparison
       if (req.user.role !== 'super_admin') {
-        filters.companyId = req.user.companyId;
+        filters.companyId = req.user.companyId instanceof mongoose.Types.ObjectId
+          ? req.user.companyId
+          : new mongoose.Types.ObjectId(req.user.companyId);
       }
 
       // Get all matching logs (up to 10000)

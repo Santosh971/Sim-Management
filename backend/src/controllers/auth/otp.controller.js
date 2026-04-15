@@ -7,6 +7,7 @@ const { normalizePhoneNumber } = require('../../utils/response');
 
 /**
  * Send OTP to mobile number
+ * [OTP EMAIL FIX] - Sends OTP to user's registered email address
  * POST /api/auth/send-otp
  */
 const sendOTP = async (req, res) => {
@@ -33,7 +34,7 @@ const sendOTP = async (req, res) => {
     }
 
     // [PHONE NORMALIZATION FIX] - Log normalization
-    logger.info('Phone number normalized for sendOTP', {
+    logger.info('[OTP EMAIL FIX] Phone number normalized for sendOTP', {
       original: original,
       normalized: normalized
     });
@@ -51,17 +52,28 @@ const sendOTP = async (req, res) => {
       metadata: {
         mobileNumber: normalized,
         success: result.success,
+        emailSent: result.emailSent || false,
+        requiresAdminAction: result.requiresAdminAction || false,
       },
       req,
     });
 
+    // [OTP EMAIL FIX] - Handle different response scenarios
     if (!result.success) {
+      // Check if user needs admin action (no email registered)
+      if (result.requiresAdminAction) {
+        return res.status(400).json({
+          success: false,
+          message: result.message,
+          requiresAdminAction: true,
+        });
+      }
       return res.status(400).json(result);
     }
 
     return res.status(200).json(result);
   } catch (error) {
-    logger.error('Send OTP error', { error: error.message });
+    logger.error('[OTP EMAIL FIX] Send OTP error', { error: error.message });
     return res.status(500).json({
       success: false,
       message: 'Failed to send OTP. Please try again.',
@@ -71,6 +83,7 @@ const sendOTP = async (req, res) => {
 
 /**
  * Verify OTP and login
+ * [OTP EMAIL FIX] - Handles users created by admin with email & phone
  * POST /api/auth/verify-otp
  */
 const verifyOTP = async (req, res) => {
@@ -104,7 +117,7 @@ const verifyOTP = async (req, res) => {
     }
 
     // [PHONE NORMALIZATION FIX] - Log normalization
-    logger.info('Phone number normalized for verifyOTP', {
+    logger.info('[OTP EMAIL FIX] Phone number normalized for verifyOTP', {
       original: original,
       normalized: normalized
     });
@@ -131,6 +144,7 @@ const verifyOTP = async (req, res) => {
       metadata: {
         loginMethod: 'otp',
         mobileNumber: result.user.mobileNumber,
+        email: result.user.email,
         userAgent: req.headers['user-agent'],
       },
       req,
@@ -138,7 +152,7 @@ const verifyOTP = async (req, res) => {
 
     return res.status(200).json(result);
   } catch (error) {
-    logger.error('Verify OTP error', { error: error.message });
+    logger.error('[OTP EMAIL FIX] Verify OTP error', { error: error.message });
     return res.status(500).json({
       success: false,
       message: 'Failed to verify OTP. Please try again.',
@@ -173,20 +187,28 @@ const resendOTP = async (req, res) => {
     }
 
     // [PHONE NORMALIZATION FIX] - Log normalization
-    logger.info('Phone number normalized for resendOTP', {
+    logger.info('[OTP EMAIL FIX] Phone number normalized for resendOTP', {
       original: original,
       normalized: normalized
     });
 
     const result = await otpService.resendOTP(normalized);
 
+    // [OTP EMAIL FIX] - Handle different response scenarios
     if (!result.success) {
+      if (result.requiresAdminAction) {
+        return res.status(400).json({
+          success: false,
+          message: result.message,
+          requiresAdminAction: true,
+        });
+      }
       return res.status(400).json(result);
     }
 
     return res.status(200).json(result);
   } catch (error) {
-    logger.error('Resend OTP error', { error: error.message });
+    logger.error('[OTP EMAIL FIX] Resend OTP error', { error: error.message });
     return res.status(500).json({
       success: false,
       message: 'Failed to resend OTP. Please try again.',

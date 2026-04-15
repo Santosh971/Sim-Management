@@ -307,6 +307,226 @@ class SimController {
       next(error);
     }
   }
+
+  /**
+   * Detect operator from mobile number
+   * [INTERNATIONAL OPERATORS] - Supports multiple countries
+   * POST /api/sims/detect-operator
+   * Body: { mobileNumber: string (with country code, e.g., +919876543210) }
+   */
+  async detectOperator(req, res, next) {
+    try {
+      const { mobileNumber } = req.body;
+
+      if (!mobileNumber) {
+        return res.status(400).json({
+          success: false,
+          message: 'Mobile number is required',
+        });
+      }
+
+      // Normalize number
+      let normalizedNumber = mobileNumber;
+      if (!mobileNumber.startsWith('+')) {
+        normalizedNumber = '+' + mobileNumber;
+      }
+
+      // [INTERNATIONAL OPERATORS] - Country-specific operator detection
+      // Format: { countryCode: { country, operators, prefixes?, detectByPrefix?: boolean } }
+      const countryOperatorConfig = {
+        // India - Detect by number series
+        '+91': {
+          country: 'India',
+          operators: ['Jio', 'Airtel', 'Vi', 'BSNL', 'MTNL', 'Other'],
+          detectByPrefix: true,
+          // Jio series
+          jioPrefixes: ['700', '701', '702', '703', '704', '705', '706', '707', '708', '709',
+            '727', '728', '729', '730', '731', '732', '733', '734', '735', '736', '737', '738', '739',
+            '740', '741', '742', '743', '744', '745', '746', '747', '748', '749',
+            '750', '751', '752', '753', '754', '755', '756', '757', '758', '759',
+            '760', '761', '762', '763', '764', '765', '766', '767', '768', '769',
+            '770', '771', '772', '773', '774', '775', '776', '777', '778', '779',
+            '780', '781', '782', '783', '784', '785', '786', '787', '788', '789',
+            '790', '791', '792', '793', '794', '795', '796', '797', '798', '799',
+            '830', '831', '832', '833', '834', '835', '836', '837', '838', '839',
+            '869', '870', '871', '872', '873', '874', '875', '876', '877', '878', '879',
+            '880', '881', '882', '883', '884', '885', '886', '887', '888', '889',
+            '890', '891', '892', '893', '894', '895', '896', '897', '898', '899',
+            '910', '911', '912', '913', '914', '915', '916', '917', '918', '919',
+            '920', '921', '922', '923', '924', '925', '926', '927', '928', '929',
+            '930', '931', '932', '933', '934', '935', '936', '937', '938', '939',
+            '940', '941', '942', '943', '944', '945', '946', '947', '948', '949',
+            '950', '951', '952', '953', '954', '955', '956', '957', '958', '959',
+            '960', '961', '962', '963', '964', '965', '966', '967', '968', '969',
+            '970', '971', '972', '973', '974', '975', '976', '977', '978', '979',
+            '980', '981', '982', '983', '984', '985', '986', '987', '988', '989',
+            '990', '991', '992', '993', '994', '995', '996', '997', '998', '999',
+            '600', '601', '602', '603', '604', '605', '606', '607', '608', '609',
+            '610', '611', '612', '613', '614', '615', '616', '617', '618', '619',
+            '620', '621', '622', '623', '624', '625', '626', '627', '628', '629'],
+          // BSNL series
+          bsnlPrefixes: ['940', '941', '942', '943', '944', '945', '946', '947', '948', '949',
+            '800', '801', '802', '803', '804', '805', '806', '807', '808', '809',
+            '810', '811', '812', '813', '814', '815', '816', '817', '818', '819',
+            '850', '851', '852', '853', '854', '855', '856', '857', '858', '859',
+            '860', '861', '862', '863', '864', '865', '866', '867', '868', '869'],
+          // MTNL series
+          mtnlPrefixes: ['991', '992', '993', '994', '995', '996', '997', '998', '999',
+            '981', '982', '983', '984', '985', '986', '987', '988', '989', '990'],
+        },
+        // UAE
+        '+971': {
+          country: 'UAE',
+          operators: ['Etisalat', 'Du', 'Virgin Mobile', 'Other'],
+          detectByPrefix: true,
+          etisalatPrefixes: ['50', '51', '52', '56', '58'], // Etisalat prefixes
+          duPrefixes: ['52', '54', '55', '56', '58'], // Du prefixes
+          virginPrefixes: ['56'], // Virgin Mobile
+        },
+        // Saudi Arabia
+        '+966': {
+          country: 'Saudi Arabia',
+          operators: ['STC', 'Mobily', 'Zain', 'Other'],
+          detectByPrefix: true,
+          stcPrefixes: ['50', '53', '54', '55', '59'],
+          mobilyPrefixes: ['53', '54', '56', '57'],
+          zainPrefixes: ['50', '54', '55', '56', '59'],
+        },
+        // Qatar
+        '+974': {
+          country: 'Qatar',
+          operators: ['Ooredoo', 'Vodafone Qatar', 'Other'],
+          detectByPrefix: true,
+          ooredooPrefixes: ['33', '44', '50', '51', '52', '55', '66', '77'],
+          vodafonePrefixes: ['30', '31', '32', '33', '44', '50', '51', '52', '55', '66', '77'],
+        },
+        // Kuwait
+        '+965': {
+          country: 'Kuwait',
+          operators: ['Zain', 'Ooredoo', 'STC', 'Other'],
+          detectByPrefix: true,
+          zainPrefixes: ['5', '6', '9'],
+          ooredooPrefixes: ['5', '6', '9'],
+          stcPrefixes: ['5', '6'],
+        },
+        // Bahrain
+        '+973': {
+          country: 'Bahrain',
+          operators: ['Batelco', 'Zain Bahrain', 'STC Bahrain', 'Other'],
+          detectByPrefix: false,
+        },
+        // Oman
+        '+968': {
+          country: 'Oman',
+          operators: ['Omantel', 'Ooredoo', 'Other'],
+          detectByPrefix: true,
+          omantelPrefixes: ['9', '7'],
+          ooredooPrefixes: ['9', '7'],
+        },
+        // Australia
+        '+61': {
+          country: 'Australia',
+          operators: ['Telstra', 'Optus', 'Vodafone', 'TPG', 'Other'],
+          detectByPrefix: false,
+        },
+        // USA/Canada
+        '+1': {
+          country: 'USA/Canada',
+          operators: ['Verizon', 'AT&T', 'T-Mobile', 'Sprint', 'US Cellular', 'Other'],
+          detectByPrefix: false,
+        },
+        // UK
+        '+44': {
+          country: 'United Kingdom',
+          operators: ['EE', 'Vodafone', 'O2', 'Three', 'Virgin Mobile', 'Sky Mobile', 'Giffgaff', 'Other'],
+          detectByPrefix: false,
+        },
+        // Singapore
+        '+65': {
+          country: 'Singapore',
+          operators: ['Singtel', 'StarHub', 'M1', 'Circles.Life', 'Other'],
+          detectByPrefix: true,
+          singtelPrefixes: ['8', '9'],
+          starhubPrefixes: ['8', '9'],
+          m1Prefixes: ['8', '9'],
+        },
+      };
+
+      // Detect country and operator
+      let detectedCountry = 'Unknown';
+      let detectedOperator = 'Other';
+      let detectedCountryCode = '+1'; // Default fallback
+
+      // Find matching country code (check longer codes first)
+      const sortedCodes = Object.keys(countryOperatorConfig).sort((a, b) => b.length - a.length);
+      for (const code of sortedCodes) {
+        if (normalizedNumber.startsWith(code)) {
+          detectedCountryCode = code;
+          const config = countryOperatorConfig[code];
+          detectedCountry = config.country;
+
+          // Try to detect operator by prefix
+          if (config.detectByPrefix && normalizedNumber.length >= 10) {
+            const subscriberNumber = normalizedNumber.substring(code.length);
+            const prefix3 = subscriberNumber.substring(0, 3);
+            const prefix2 = subscriberNumber.substring(0, 2);
+
+            // India-specific detection
+            if (code === '+91') {
+              if (config.jioPrefixes && config.jioPrefixes.includes(prefix3)) {
+                detectedOperator = 'Jio';
+              } else if (config.bsnlPrefixes && config.bsnlPrefixes.includes(prefix3)) {
+                detectedOperator = 'BSNL';
+              } else if (config.mtnlPrefixes && config.mtnlPrefixes.includes(prefix3)) {
+                detectedOperator = 'MTNL';
+              }
+              // Airtel and Vi have overlapping series, return first match
+              else {
+                detectedOperator = 'Other'; // Will be refined based on more specific patterns
+              }
+            }
+            // UAE detection
+            else if (code === '+971') {
+              if (config.etisalatPrefixes && config.etisalatPrefixes.includes(prefix2)) {
+                detectedOperator = 'Etisalat';
+              } else if (config.duPrefixes && config.duPrefixes.includes(prefix2)) {
+                detectedOperator = 'Du';
+              }
+            }
+            // Saudi detection
+            else if (code === '+966') {
+              if (config.stcPrefixes && config.stcPrefixes.includes(prefix2)) {
+                detectedOperator = 'STC';
+              } else if (config.mobilyPrefixes && config.mobilyPrefixes.includes(prefix2)) {
+                detectedOperator = 'Mobily';
+              } else if (config.zainPrefixes && config.zainPrefixes.includes(prefix2)) {
+                detectedOperator = 'Zain';
+              }
+            }
+            // Qatar detection
+            else if (code === '+974') {
+              if (config.ooredooPrefixes && config.ooredooPrefixes.includes(prefix2)) {
+                detectedOperator = 'Ooredoo';
+              } else if (config.vodafonePrefixes && config.vodafonePrefixes.includes(prefix2)) {
+                detectedOperator = 'Vodafone Qatar';
+              }
+            }
+          }
+          break;
+        }
+      }
+
+      return successResponse(res, {
+        operator: detectedOperator,
+        countryCode: detectedCountryCode,
+        country: detectedCountry,
+        mobileNumber: mobileNumber,
+        suggestedOperators: countryOperatorConfig[detectedCountryCode]?.operators || ['Other'],
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
 
 module.exports = new SimController();

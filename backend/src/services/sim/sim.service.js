@@ -170,10 +170,23 @@ class SimService {
           } else {
             try {
               // [BULK UPLOAD FIX] Create new user with provided name
+              // [OTP EMAIL FIX] - Normalize phone number for mobile login
+              let normalizedPhone = userPhone;
+              if (userPhone) {
+                normalizedPhone = userPhone.replace(/[\s-]/g, '');
+                if (/^\d{10}$/.test(normalizedPhone)) {
+                  normalizedPhone = '+91' + normalizedPhone;
+                }
+                if (/^91\d{10}$/.test(normalizedPhone)) {
+                  normalizedPhone = '+' + normalizedPhone;
+                }
+              }
+
               const newUser = new User({
                 email: email,
                 name: userName.trim(),
                 phone: userPhone,
+                mobileNumber: normalizedPhone, // [OTP EMAIL FIX] - Set mobileNumber for OTP login
                 role: 'user',
                 companyId: targetCompanyId,
                 isActive: true,
@@ -373,10 +386,23 @@ class SimService {
 
             try {
               // [BULK UPLOAD FIX] Create new user with provided name
+              // [OTP EMAIL FIX] - Normalize phone number for mobile login
+              let normalizedPhone = userPhone;
+              if (userPhone) {
+                normalizedPhone = userPhone.replace(/[\s-]/g, '');
+                if (/^\d{10}$/.test(normalizedPhone)) {
+                  normalizedPhone = '+91' + normalizedPhone;
+                }
+                if (/^91\d{10}$/.test(normalizedPhone)) {
+                  normalizedPhone = '+' + normalizedPhone;
+                }
+              }
+
               const newUser = new User({
                 email: email,
                 name: userName.trim(),
                 phone: userPhone,
+                mobileNumber: normalizedPhone, // [OTP EMAIL FIX] - Set mobileNumber for OTP login
                 role: 'user',
                 companyId: targetCompanyId,
                 isActive: true,

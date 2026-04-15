@@ -19,11 +19,13 @@ const SimSchema = new Schema({
     trim: true,
     match: [/^\+?\d{10,15}$/, 'Mobile number must be 10-15 digits (with optional + prefix)'],
   },
+  // [INTERNATIONAL OPERATORS] - Operator field now accepts any value for international support
   operator: {
     type: String,
     required: [true, 'Operator is required'],
-    enum: ['Jio', 'Airtel', 'Vi', 'BSNL', 'MTNL', 'Other'],
-    default: 'Jio',
+    trim: true,
+    maxlength: [50, 'Operator name cannot exceed 50 characters'],
+    default: 'Other',
   },
   circle: {
     type: String,

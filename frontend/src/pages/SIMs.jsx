@@ -64,9 +64,10 @@ function ToggleSwitch({ enabled, onChange, loading }) {
 
 // SIM Modal Component
 function SimModal({ isOpen, onClose, sim, onSave, users, loadingUsers }) {
+  const { api } = useAuth()
   const [loading, setLoading] = useState(false)
+  const [detectingOperator, setDetectingOperator] = useState(false)
   const [formData, setFormData] = useState({
-
     countryCode: '+91',
     mobileNumber: '',
     operator: 'Jio',
@@ -76,11 +77,307 @@ function SimModal({ isOpen, onClose, sim, onSave, users, loadingUsers }) {
     assignedTo: '',
   })
 
-  const operators = ['Jio', 'Airtel', 'Vi', 'BSNL', 'MTNL', 'Other']
   const statuses = ['active', 'inactive', 'suspended', 'lost']
+
+  // [DYNAMIC OPERATOR/CIRCLE CONFIG] - Country-specific operators and circles
+  // operators: array = dropdown, 'input' = free text input
+  // circles: array = dropdown, null = hidden, 'optional' = optional text input
+  const countryConfig = {
+    // India
+    '+91': {
+      country: 'India',
+      operators: ['Jio', 'Airtel', 'Vi', 'BSNL', 'MTNL', 'Other'],
+      circles: [
+        { label: 'Metro Circles', options: ['Delhi', 'Mumbai', 'Kolkata', 'Chennai'] },
+        { label: 'Category A', options: ['Maharashtra', 'Karnataka', 'Tamil Nadu', 'Andhra Pradesh', 'Gujarat', 'Rajasthan', 'Uttar Pradesh (East)', 'Uttar Pradesh (West)'] },
+        { label: 'Category B', options: ['Kerala', 'Punjab', 'Haryana', 'Madhya Pradesh', 'West Bengal', 'Odisha', 'Bihar', 'Jharkhand', 'Telangana'] },
+        { label: 'Category C', options: ['Himachal Pradesh', 'Uttarakhand', 'Goa', 'Assam', 'North East', 'Jammu & Kashmir', 'Chhattisgarh', 'Andaman & Nicobar'] },
+        { label: 'Union Territories', options: ['Chandigarh', 'Dadra & Nagar Haveli', 'Daman & Diu', 'Lakshadweep', 'Puducherry', 'Ladakh'] },
+      ],
+      autoDetectOperator: true,
+    },
+    // UAE
+    '+971': {
+      country: 'UAE',
+      operators: ['Etisalat', 'Du', 'Virgin Mobile', 'Other'],
+      circles: ['Abu Dhabi', 'Dubai', 'Sharjah', 'Ajman', 'Umm Al Quwain', 'Ras Al Khaimah', 'Fujairah'],
+      autoDetectOperator: false,
+    },
+    // Saudi Arabia
+    '+966': {
+      country: 'Saudi Arabia',
+      operators: ['STC', 'Mobily', 'Zain', 'Other'],
+      circles: ['Riyadh', 'Jeddah', 'Makkah', 'Madinah', 'Dammam', 'Eastern Province', 'Other'],
+      autoDetectOperator: false,
+    },
+    // Qatar
+    '+974': {
+      country: 'Qatar',
+      operators: ['Ooredoo', 'Vodafone Qatar', 'Other'],
+      circles: ['Doha', 'Al Rayyan', 'Al Wakrah', 'Al Khor', 'Other'],
+      autoDetectOperator: false,
+    },
+    // Kuwait
+    '+965': {
+      country: 'Kuwait',
+      operators: ['Zain', 'Ooredoo', 'STC', 'Other'],
+      circles: ['Kuwait City', 'Hawalli', 'Farwaniya', 'Ahmadi', 'Jahra', 'Mubarak Al-Kabeer'],
+      autoDetectOperator: false,
+    },
+    // Bahrain
+    '+973': {
+      country: 'Bahrain',
+      operators: ['Batelco', 'Zain Bahrain', 'STC Bahrain', 'Other'],
+      circles: ['Manama', 'Muharraq', 'Northern Governorate', 'Southern Governorate'],
+      autoDetectOperator: false,
+    },
+    // Oman
+    '+968': {
+      country: 'Oman',
+      operators: ['Omantel', 'Ooredoo', 'Other'],
+      circles: ['Muscat', 'Salalah', 'Sohar', 'Nizwa', 'Other'],
+      autoDetectOperator: false,
+    },
+    // USA
+    '+1': {
+      country: 'USA/Canada',
+      operators: ['Verizon', 'AT&T', 'T-Mobile', 'Sprint', 'US Cellular', 'Other'],
+      circles: null, // Hide circle field
+      autoDetectOperator: false,
+    },
+    // UK
+    '+44': {
+      country: 'United Kingdom',
+      operators: ['EE', 'Vodafone', 'O2', 'Three', 'Virgin Mobile', 'Sky Mobile', 'Giffgaff', 'Other'],
+      circles: null, // Hide circle field
+      autoDetectOperator: false,
+    },
+    // Australia
+    '+61': {
+      country: 'Australia',
+      operators: ['Telstra', 'Optus', 'Vodafone', 'TPG', 'Other'],
+      circles: ['NSW', 'VIC', 'QLD', 'WA', 'SA', 'TAS', 'ACT', 'NT'],
+      autoDetectOperator: false,
+    },
+    // Singapore
+    '+65': {
+      country: 'Singapore',
+      operators: ['Singtel', 'StarHub', 'M1', 'Circles.Life', 'Other'],
+      circles: null, // Hide circle field (Singapore is small)
+      autoDetectOperator: false,
+    },
+    // Malaysia
+    '+60': {
+      country: 'Malaysia',
+      operators: ['Maxis', 'Celcom', 'Digi', 'U Mobile', 'TM', 'Other'],
+      circles: ['Selangor', 'Kuala Lumpur', 'Johor', 'Penang', 'Perak', 'Sabah', 'Sarawak', 'Other'],
+      autoDetectOperator: false,
+    },
+    // Indonesia
+    '+62': {
+      country: 'Indonesia',
+      operators: ['Telkomsel', 'Indosat', 'XL Axiata', 'Tri', 'Smartfren', 'Other'],
+      circles: ['Jakarta', 'West Java', 'Central Java', 'East Java', 'Bali', 'Other'],
+      autoDetectOperator: false,
+    },
+    // Pakistan
+    '+92': {
+      country: 'Pakistan',
+      operators: ['Jazz', 'Telenor', 'Zong', 'Ufone', 'Other'],
+      circles: ['Punjab', 'Sindh', 'Khyber Pakhtunkhwa', 'Balochistan', 'Islamabad', 'Other'],
+      autoDetectOperator: false,
+    },
+    // Bangladesh
+    '+880': {
+      country: 'Bangladesh',
+      operators: ['Grameenphone', 'Banglalink', 'Robi', 'Teletalk', 'Airtel', 'Other'],
+      circles: ['Dhaka', 'Chittagong', 'Khulna', 'Rajshahi', 'Sylhet', 'Rangpur', 'Barisal', 'Other'],
+      autoDetectOperator: false,
+    },
+    // Nepal
+    '+977': {
+      country: 'Nepal',
+      operators: ['Ncell', 'Nepal Telecom', 'Smart Cell', 'Other'],
+      circles: ['Bagmati', 'Gandaki', 'Lumbini', 'Karnali', 'Province 1', 'Province 2', 'Other'],
+      autoDetectOperator: false,
+    },
+    // Sri Lanka
+    '+94': {
+      country: 'Sri Lanka',
+      operators: ['Dialog', 'Mobitel', 'Airtel', 'Hutch', 'Other'],
+      circles: ['Western', 'Central', 'Southern', 'Northern', 'Eastern', 'Other'],
+      autoDetectOperator: false,
+    },
+    // Thailand
+    '+66': {
+      country: 'Thailand',
+      operators: ['AIS', 'DTAC', 'True Move', 'Other'],
+      circles: ['Bangkok', 'Central', 'Northern', 'Northeastern', 'Southern', 'Other'],
+      autoDetectOperator: false,
+    },
+    // Vietnam
+    '+84': {
+      country: 'Vietnam',
+      operators: ['Viettel', 'Vinaphone', 'Mobifone', 'Vietnamobile', 'Other'],
+      circles: ['Hanoi', 'Ho Chi Minh', 'Da Nang', 'Other'],
+      autoDetectOperator: false,
+    },
+    // Philippines
+    '+63': {
+      country: 'Philippines',
+      operators: ['Globe', 'Smart', 'DITO', 'Other'],
+      circles: ['Luzon', 'Visayas', 'Mindanao', 'Metro Manila', 'Other'],
+      autoDetectOperator: false,
+    },
+    // Egypt
+    '+20': {
+      country: 'Egypt',
+      operators: ['Vodafone', 'Orange', 'Etisalat', 'WE', 'Other'],
+      circles: ['Cairo', 'Alexandria', 'Giza', 'Other'],
+      autoDetectOperator: false,
+    },
+    // Nigeria
+    '+234': {
+      country: 'Nigeria',
+      operators: ['MTN', 'Glo', 'Airtel', '9mobile', 'Other'],
+      circles: ['Lagos', 'Abuja', 'Port Harcourt', 'Other'],
+      autoDetectOperator: false,
+    },
+    // South Africa
+    '+27': {
+      country: 'South Africa',
+      operators: ['Vodacom', 'MTN', 'Cell C', 'Telkom', 'Other'],
+      circles: ['Gauteng', 'Western Cape', 'KwaZulu-Natal', 'Other'],
+      autoDetectOperator: false,
+    },
+    // Kenya
+    '+254': {
+      country: 'Kenya',
+      operators: ['Safaricom', 'Airtel', 'Telkom', 'Other'],
+      circles: ['Nairobi', 'Mombasa', 'Kisumu', 'Other'],
+      autoDetectOperator: false,
+    },
+    // Germany
+    '+49': {
+      country: 'Germany',
+      operators: ['Telekom', 'Vodafone', 'O2', '1&1', 'Other'],
+      circles: null, // Hide circle field
+      autoDetectOperator: false,
+    },
+    // France
+    '+33': {
+      country: 'France',
+      operators: ['Orange', 'SFR', 'Bouygues', 'Free', 'Other'],
+      circles: null, // Hide circle field
+      autoDetectOperator: false,
+    },
+    // Spain
+    '+34': {
+      country: 'Spain',
+      operators: ['Movistar', 'Vodafone', 'Orange', 'Yoigo', 'Other'],
+      circles: null, // Hide circle field
+      autoDetectOperator: false,
+    },
+    // Italy
+    '+39': {
+      country: 'Italy',
+      operators: ['TIM', 'Vodafone', 'Wind Tre', 'Iliad', 'Other'],
+      circles: null, // Hide circle field
+      autoDetectOperator: false,
+    },
+    // Brazil
+    '+55': {
+      country: 'Brazil',
+      operators: ['Claro', 'Vivo', 'TIM', 'Oi', 'Other'],
+      circles: ['São Paulo', 'Rio de Janeiro', 'Minas Gerais', 'Other'],
+      autoDetectOperator: false,
+    },
+    // Mexico
+    '+52': {
+      country: 'Mexico',
+      operators: ['Telcel', 'AT&T', 'Movistar', 'Other'],
+      circles: ['Ciudad de México', 'Jalisco', 'Other'],
+      autoDetectOperator: false,
+    },
+    // Japan
+    '+81': {
+      country: 'Japan',
+      operators: ['NTT Docomo', 'au', 'SoftBank', 'Rakuten Mobile', 'Other'],
+      circles: null, // Hide circle field
+      autoDetectOperator: false,
+    },
+    // South Korea
+    '+82': {
+      country: 'South Korea',
+      operators: ['SK Telecom', 'KT', 'LG U+', 'Other'],
+      circles: null, // Hide circle field
+      autoDetectOperator: false,
+    },
+    // China
+    '+86': {
+      country: 'China',
+      operators: ['China Mobile', 'China Unicom', 'China Telecom', 'Other'],
+      circles: ['Beijing', 'Shanghai', 'Guangdong', 'Other'],
+      autoDetectOperator: false,
+    },
+    // Russia
+    '+7': {
+      country: 'Russia',
+      operators: ['MTS', 'Beeline', 'MegaFon', 'Tele2', 'Other'],
+      circles: ['Moscow', 'Saint Petersburg', 'Other'],
+      autoDetectOperator: false,
+    },
+    // Turkey
+    '+90': {
+      country: 'Turkey',
+      operators: ['Turkcell', 'Vodafone', 'Turk Telekom', 'Other'],
+      circles: ['Istanbul', 'Ankara', 'Izmir', 'Other'],
+      autoDetectOperator: false,
+    },
+    // Israel
+    '+972': {
+      country: 'Israel',
+      operators: ['Pelephone', 'Cellcom', 'Hot Mobile', 'Partner', 'Golan Telecom', 'Other'],
+      circles: null, // Hide circle field
+      autoDetectOperator: false,
+    },
+    // New Zealand
+    '+64': {
+      country: 'New Zealand',
+      operators: ['Spark', 'Vodafone', '2degrees', 'Skinny', 'Other'],
+      circles: ['Auckland', 'Wellington', 'Christchurch', 'Other'],
+      autoDetectOperator: false,
+    },
+  }
+
+  // Helper function to get config for current country code
+  const getCountryConfig = (countryCode) => {
+    return countryConfig[countryCode] || {
+      country: 'Other',
+      operators: 'input', // Free text input
+      circles: 'optional', // Optional text input
+      autoDetectOperator: false,
+    }
+  }
+
+  // Get current country config
+  const currentConfig = getCountryConfig(formData.countryCode)
+
+  // Determine if operator should be dropdown or input
+  const operatorOptions = Array.isArray(currentConfig.operators) ? currentConfig.operators : null
+  const showOperatorDropdown = operatorOptions !== null
+  const showOperatorInput = !showOperatorDropdown
+
+  // Determine circle field visibility
+  const circleOptions = currentConfig.circles
+  const showCircleDropdown = Array.isArray(circleOptions)
+  const showCircleInput = circleOptions === 'optional'
+  const hideCircleField = circleOptions === null
+
   const countryCodes = [
     // India (Default)
     { code: '+91', country: 'India' },
+    { code: '+971', country: 'United Arab Emirates' },
     // Asia
     { code: '+93', country: 'Afghanistan' },
     { code: '+355', country: 'Albania' },
@@ -307,7 +604,7 @@ function SimModal({ isOpen, onClose, sim, onSave, users, loadingUsers }) {
     { code: '+688', country: 'Tuvalu' },
     { code: '+256', country: 'Uganda' },
     { code: '+380', country: 'Ukraine' },
-    { code: '+971', country: 'United Arab Emirates' },
+
     { code: '+44', country: 'United Kingdom' },
     { code: '+1', country: 'United States' },
     { code: '+598', country: 'Uruguay' },
@@ -343,17 +640,19 @@ function SimModal({ isOpen, onClose, sim, onSave, users, loadingUsers }) {
       setFormData({
         countryCode: cCode,
         mobileNumber: mobileNum,
-        operator: sim.operator || 'Jio',
+        operator: sim.operator || '',
         circle: sim.circle || '',
         status: sim.status || 'active',
         notes: sim.notes || '',
         assignedTo: sim.assignedTo?._id || '',
       })
     } else {
+      // Default to India
+      const defaultConfig = getCountryConfig('+91')
       setFormData({
         countryCode: '+91',
         mobileNumber: '',
-        operator: 'Jio',
+        operator: Array.isArray(defaultConfig.operators) ? defaultConfig.operators[0] : '',
         circle: '',
         status: 'active',
         notes: '',
@@ -362,9 +661,73 @@ function SimModal({ isOpen, onClose, sim, onSave, users, loadingUsers }) {
     }
   }, [sim])
 
+  // Auto-detect operator when mobile number changes (for Indian numbers)
+  const detectOperatorFromNumber = async (mobileNum, countryCode) => {
+    // Only auto-detect for Indian numbers (+91)
+    const config = getCountryConfig(countryCode)
+    if (!config.autoDetectOperator || !mobileNum || mobileNum.length < 3) {
+      return
+    }
+
+    // Check if 10 digits entered
+    if (!/^\d{10}$/.test(mobileNum)) {
+      return
+    }
+
+    setDetectingOperator(true)
+    try {
+      const fullNumber = countryCode + mobileNum
+      const response = await api.post('/sims/detect-operator', { mobileNumber: fullNumber })
+
+      if (response.data?.success && response.data?.data?.operator) {
+        setFormData(prev => ({
+          ...prev,
+          operator: response.data.data.operator,
+        }))
+      }
+    } catch (error) {
+      // Silently fail - operator detection is optional
+      console.log('Operator detection failed:', error.message)
+    } finally {
+      setDetectingOperator(false)
+    }
+  }
+
+  // Debounce for operator detection
+  const handleMobileNumberChange = (e, currentCountryCode) => {
+    const { value } = e.target
+    setFormData(prev => ({ ...prev, mobileNumber: value }))
+
+    // Only detect for countries with auto-detect enabled
+    const config = getCountryConfig(currentCountryCode)
+    if (config.autoDetectOperator && /^\d{10}$/.test(value)) {
+      detectOperatorFromNumber(value, currentCountryCode)
+    }
+  }
+
   const handleChange = (e) => {
     const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
+
+    if (name === 'mobileNumber') {
+      handleMobileNumberChange(e, formData.countryCode)
+    } else if (name === 'countryCode') {
+      // [DYNAMIC OPERATOR/CIRCLE] - When country changes, update operator and circle based on config
+      const newConfig = getCountryConfig(value)
+      const newOperator = Array.isArray(newConfig.operators) ? newConfig.operators[0] : ''
+      const newCircle = Array.isArray(newConfig.circles)
+        ? (typeof newConfig.circles[0] === 'string' ? '' : '') // If array of strings, clear; if array of objects, also clear
+        : '' // For 'optional' or null, clear
+
+      setFormData(prev => ({
+        ...prev,
+        countryCode: value,
+        operator: newOperator,
+        circle: newCircle,
+        mobileNumber: '', // Clear mobile number for fresh entry
+      }))
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }))
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -478,8 +841,8 @@ function SimModal({ isOpen, onClose, sim, onSave, users, loadingUsers }) {
                 name="mobileNumber"
                 value={formData.mobileNumber}
                 onChange={handleChange}
-                placeholder="10-digit mobile number"
-                maxLength="10"
+                placeholder={currentConfig.autoDetectOperator ? '10-digit mobile number (operator auto-detected)' : 'Mobile number'}
+                maxLength={formData.countryCode === '+91' ? '10' : '15'}
                 style={{
                   flex: 1,
                   padding: '10px 14px',
@@ -492,32 +855,59 @@ function SimModal({ isOpen, onClose, sim, onSave, users, loadingUsers }) {
                 required
               />
             </div>
+            {currentConfig.autoDetectOperator && formData.mobileNumber.length === 10 && (
+              <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: '#6b7280' }}>
+                {detectingOperator ? 'Detecting operator...' : 'Operator will be auto-detected'}
+              </p>
+            )}
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '16px' }}>
             <div>
               <label style={{ display: 'block', marginBottom: '6px', fontWeight: '500', fontSize: '13px', color: '#374151' }}>
-                Operator
+                Operator {detectingOperator && <span style={{ color: '#6b7280', fontSize: '12px' }}>(detecting...)</span>}
               </label>
-              <select
-                name="operator"
-                value={formData.operator}
-                onChange={handleChange}
-                style={{
-                  width: '100%',
-                  padding: '10px 14px',
-                  border: '1px solid #d1d5db',
-                  borderRadius: '8px',
-                  fontSize: '14px',
-                  backgroundColor: '#ffffff',
-                  outline: 'none',
-                  boxSizing: 'border-box',
-                }}
-              >
-                {operators.map((op) => (
-                  <option key={op} value={op}>{op}</option>
-                ))}
-              </select>
+              {/* [DYNAMIC OPERATOR] - Show dropdown for supported countries, input for others */}
+              {showOperatorDropdown ? (
+                <select
+                  name="operator"
+                  value={formData.operator}
+                  onChange={handleChange}
+                  disabled={detectingOperator}
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    border: '1px solid #d1d5db',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    backgroundColor: detectingOperator ? '#f9fafb' : '#ffffff',
+                    outline: 'none',
+                    boxSizing: 'border-box',
+                    opacity: detectingOperator ? 0.7 : 1,
+                  }}
+                >
+                  {operatorOptions.map((op) => (
+                    <option key={op} value={op}>{op}</option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type="text"
+                  name="operator"
+                  value={formData.operator}
+                  onChange={handleChange}
+                  placeholder="Enter operator name"
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    border: '1px solid #d1d5db',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    outline: 'none',
+                    boxSizing: 'border-box',
+                  }}
+                />
+              )}
             </div>
             <div>
               <label style={{ display: 'block', marginBottom: '6px', fontWeight: '500', fontSize: '13px', color: '#374151' }}>
@@ -545,80 +935,67 @@ function SimModal({ isOpen, onClose, sim, onSave, users, loadingUsers }) {
             </div>
           </div>
 
-          <div style={{ marginBottom: '16px' }}>
-            <label style={{ display: 'block', marginBottom: '6px', fontWeight: '500', fontSize: '13px', color: '#374151' }}>
-              Circle
-            </label>
-            <select
-              name="circle"
-              value={formData.circle}
-              onChange={handleChange}
-              style={{
-                width: '100%',
-                padding: '10px 14px',
-                border: '1px solid #d1d5db',
-                borderRadius: '8px',
-                fontSize: '14px',
-                backgroundColor: '#ffffff',
-                outline: 'none',
-                boxSizing: 'border-box',
-                color: formData.circle ? '#111827' : '#9ca3af',
-              }}
-            >
-              <option value="">Select Circle / State</option>
-
-              {/* Telecom Circles (as used by operators) */}
-              <optgroup label="Metro Circles">
-                <option value="Delhi">Delhi</option>
-                <option value="Mumbai">Mumbai</option>
-                <option value="Kolkata">Kolkata</option>
-                <option value="Chennai">Chennai</option>
-              </optgroup>
-
-              <optgroup label="Category A Circles">
-                <option value="Maharashtra">Maharashtra</option>
-                <option value="Karnataka">Karnataka</option>
-                <option value="Tamil Nadu">Tamil Nadu</option>
-                <option value="Andhra Pradesh">Andhra Pradesh</option>
-                <option value="Gujarat">Gujarat</option>
-                <option value="Rajasthan">Rajasthan</option>
-                <option value="Uttar Pradesh (East)">Uttar Pradesh (East)</option>
-                <option value="Uttar Pradesh (West)">Uttar Pradesh (West)</option>
-              </optgroup>
-
-              <optgroup label="Category B Circles">
-                <option value="Kerala">Kerala</option>
-                <option value="Punjab">Punjab</option>
-                <option value="Haryana">Haryana</option>
-                <option value="Madhya Pradesh">Madhya Pradesh</option>
-                <option value="West Bengal">West Bengal</option>
-                <option value="Odisha">Odisha</option>
-                <option value="Bihar">Bihar</option>
-                <option value="Jharkhand">Jharkhand</option>
-                <option value="Telangana">Telangana</option>
-              </optgroup>
-
-              <optgroup label="Category C Circles">
-                <option value="Himachal Pradesh">Himachal Pradesh</option>
-                <option value="Uttarakhand">Uttarakhand</option>
-                <option value="Goa">Goa</option>
-                <option value="Assam">Assam</option>
-                <option value="North East">North East</option>
-                <option value="Jammu & Kashmir">Jammu & Kashmir</option>
-                <option value="Chhattisgarh">Chhattisgarh</option>
-                <option value="Andaman & Nicobar">Andaman & Nicobar</option>
-              </optgroup>
-
-              <optgroup label="Union Territories">
-                <option value="Chandigarh">Chandigarh</option>
-                <option value="Dadra & Nagar Haveli">Dadra & Nagar Haveli</option>
-                <option value="Daman & Diu">Daman & Diu</option>
-                <option value="Lakshadweep">Lakshadweep</option>
-                <option value="Puducherry">Puducherry</option>
-                <option value="Ladakh">Ladakh</option>
-              </optgroup>
-            </select>
-          </div>
+          {/* [DYNAMIC CIRCLE] - Show dropdown, input, or hide based on country */}
+          {!hideCircleField && (
+            <div style={{ marginBottom: '16px' }}>
+              <label style={{ display: 'block', marginBottom: '6px', fontWeight: '500', fontSize: '13px', color: '#374151' }}>
+                Circle {showCircleInput && <span style={{ color: '#6b7280', fontSize: '12px' }}>(optional)</span>}
+              </label>
+              {showCircleDropdown ? (
+                <select
+                  name="circle"
+                  value={formData.circle}
+                  onChange={handleChange}
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    border: '1px solid #d1d5db',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    backgroundColor: '#ffffff',
+                    outline: 'none',
+                    boxSizing: 'border-box',
+                    color: formData.circle ? '#111827' : '#9ca3af',
+                  }}
+                >
+                  <option value="">Select Circle / Region</option>
+                  {/* Handle both array of strings and array of objects with groups */}
+                  {circleOptions[0]?.options ? (
+                    // Object format with groups (India)
+                    circleOptions.map(group => (
+                      <optgroup key={group.label} label={group.label}>
+                        {group.options.map(circle => (
+                          <option key={circle} value={circle}>{circle}</option>
+                        ))}
+                      </optgroup>
+                    ))
+                  ) : (
+                    // Simple array of strings (UAE, etc.)
+                    circleOptions.map(circle => (
+                      <option key={circle} value={circle}>{circle}</option>
+                    ))
+                  )}
+                </select>
+              ) : showCircleInput ? (
+                <input
+                  type="text"
+                  name="circle"
+                  value={formData.circle}
+                  onChange={handleChange}
+                  placeholder="Enter circle/region (optional)"
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    border: '1px solid #d1d5db',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    outline: 'none',
+                    boxSizing: 'border-box',
+                  }}
+                />
+              ) : null}
+            </div>
+          )}
           <div style={{ marginBottom: '16px' }}>
             <label style={{ display: 'block', marginBottom: '6px', fontWeight: '500', fontSize: '13px', color: '#374151' }}>
               <FiUser style={{ display: 'inline', marginRight: '6px', verticalAlign: 'middle' }} />
@@ -790,11 +1167,12 @@ function BulkUploadModal({ isOpen, onClose, onSuccess }) {
   const [errors, setErrors] = useState([])
   const [uploading, setUploading] = useState(false)
 
-  const validOperators = ['Jio', 'Airtel', 'Vi', 'BSNL', 'MTNL', 'Other']
+  // [INTERNATIONAL OPERATORS] - Removed operator validation, accept any value
   const validStatuses = ['active', 'inactive', 'suspended', 'lost']
 
   const downloadTemplate = () => {
     // [BULK UPLOAD FIX] Added Assigned User Name and Assigned User Phone columns
+    // [INTERNATIONAL OPERATORS] - Updated template with example for international use
     const template = [
       { 'Country Code': '+91', 'Mobile Number': '9876543210', 'Operator': 'Jio', 'Circle': 'Maharashtra', 'Status': 'active', 'Assigned User Email': 'user@example.com', 'Assigned User Name': 'John Doe', 'Assigned User Phone': '+919876543210', 'Notes': 'Optional notes' },
     ]
@@ -803,7 +1181,7 @@ function BulkUploadModal({ isOpen, onClose, onSuccess }) {
     ws['!cols'] = [
       { wch: 14 },  // Country Code
       { wch: 16 },  // Mobile Number
-      { wch: 12 },  // Operator
+      { wch: 20 },  // Operator (increased for international names)
       { wch: 16 },  // Circle
       { wch: 10 },  // Status
       { wch: 26 },  // Assigned User Email
@@ -836,7 +1214,7 @@ function BulkUploadModal({ isOpen, onClose, onSuccess }) {
         const validatedData = jsonData.map((row, index) => {
           const countryCode = String(row['Country Code'] || row.countryCode || row.country_code || '+91').trim()
           const mobileNumber = String(row['Mobile Number'] || row.mobileNumber || row.mobile_number || '').trim()
-          const operator = String(row['Operator'] || row.operator || 'Jio').trim()
+          const operator = String(row['Operator'] || row.operator || 'Other').trim()
           const circle = String(row['Circle'] || row.circle || '').trim()
           const status = String(row['Status'] || row.status || 'active').toLowerCase().trim()
           const assignedUserEmail = String(row['Assigned User Email'] || row.assignedUserEmail || row.assigned_user_email || '').trim().toLowerCase()
@@ -853,8 +1231,9 @@ function BulkUploadModal({ isOpen, onClose, onSuccess }) {
             rowErrors.push('Invalid 10-digit mobile number')
           }
 
-          if (!validOperators.includes(operator)) {
-            rowErrors.push(`Invalid Operator. Must be one of: ${validOperators.join(', ')}`)
+          // [INTERNATIONAL OPERATORS] - Removed operator validation, accept any value
+          if (!operator || operator.length === 0) {
+            rowErrors.push('Operator is required')
           }
 
           if (!validStatuses.includes(status)) {

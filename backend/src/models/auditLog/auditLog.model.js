@@ -149,8 +149,12 @@ AuditLogSchema.statics.getLogsWithFilters = async function(filters = {}, options
   }
 
   // Apply filters
+  // [AUDIT LOG FIX] - Ensure companyId is properly converted to ObjectId for accurate comparison
   if (filters.companyId) {
-    query.companyId = filters.companyId;
+    // If already an ObjectId, use as-is; otherwise convert
+    query.companyId = filters.companyId instanceof mongoose.Types.ObjectId
+      ? filters.companyId
+      : new mongoose.Types.ObjectId(filters.companyId);
   }
 
   if (filters.performedBy) {

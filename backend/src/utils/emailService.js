@@ -507,6 +507,8 @@ class EmailService {
       </body>
       </html>
     `;
+
+    console.log("Otp : ", otp);
     return this.sendEmail({ to: email, subject, html });
   }
 
