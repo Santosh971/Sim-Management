@@ -502,10 +502,12 @@ class SimService {
       filter.companyId = query.companyId;
     }
 
+    // [PHONE SEARCH FIX] - Escape special regex characters in search
     if (search) {
+      const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       filter.$or = [
-        { mobileNumber: { $regex: search, $options: 'i' } },
-        { operator: { $regex: search, $options: 'i' } },
+        { mobileNumber: { $regex: escapedSearch, $options: 'i' } },
+        { operator: { $regex: escapedSearch, $options: 'i' } },
       ];
     }
 
@@ -703,10 +705,12 @@ class SimService {
       filter.companyId = query.companyId;
     }
 
+    // [PHONE SEARCH FIX] - Escape special regex characters in search
     if (search) {
+      const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       filter.$or = [
-        { mobileNumber: { $regex: search, $options: 'i' } },
-        { operator: { $regex: search, $options: 'i' } },
+        { mobileNumber: { $regex: escapedSearch, $options: 'i' } },
+        { operator: { $regex: escapedSearch, $options: 'i' } },
       ];
     }
 

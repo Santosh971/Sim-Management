@@ -11,11 +11,13 @@ class UserService {
     // Build filter - only users from same company
     const filter = { companyId: user.companyId };
 
+    // [PHONE SEARCH FIX] - Escape special regex characters in search
     if (search) {
+      const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
       filter.$or = [
-        { name: { $regex: search, $options: 'i' } },
-        { email: { $regex: search, $options: 'i' } },
-        { phone: { $regex: search, $options: 'i' } },
+        { name: { $regex: escapedSearch, $options: 'i' } },
+        { email: { $regex: escapedSearch, $options: 'i' } },
+        { phone: { $regex: escapedSearch, $options: 'i' } },
       ];
     }
 

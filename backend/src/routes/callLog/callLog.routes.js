@@ -49,7 +49,12 @@ const queryValidation = [
   query('limit').optional().isInt({ min: 1, max: 100 }),
   query('simId').optional().isMongoId(),
   query('callType').optional().isIn(['incoming', 'outgoing', 'missed']),
-  query('phoneNumber').optional().trim(),
+  // [PHONE SEARCH FIX] - Sanitize phone number: trim and remove special characters that could break regex
+  query('phoneNumber').optional().trim().customSanitizer(value => {
+    if (!value) return value;
+    // Remove tabs, newlines, and extra spaces
+    return value.replace(/[\t\n\r\s]+/g, ' ').trim();
+  }),
   query('startDate').optional().isISO8601(),
   query('endDate').optional().isISO8601(),
   query('sortBy').optional().isIn(['timestamp', 'duration', 'callType']),

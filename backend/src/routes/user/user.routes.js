@@ -35,7 +35,12 @@ const resetPasswordValidation = [
 const queryValidation = [
   query('page').optional().isInt({ min: 1 }),
   query('limit').optional().isInt({ min: 1, max: 100 }),
-  query('search').optional().trim(),
+  // [PHONE SEARCH FIX] - Sanitize search: trim and remove special characters that could break regex
+  query('search').optional().trim().customSanitizer(value => {
+    if (!value) return value;
+    // Remove tabs, newlines, and extra spaces
+    return value.replace(/[\t\n\r]+/g, '').trim();
+  }),
   query('status').optional().isIn(['active', 'inactive']),
   query('role').optional().isIn(['user', 'admin']),
   query('sortBy').optional().isIn(['name', 'createdAt', 'email']),

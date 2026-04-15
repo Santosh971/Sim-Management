@@ -116,8 +116,10 @@ class CallLogService {
     if (simId) filter.simId = simId;
     if (callType) filter.callType = callType;
 
+    // [PHONE SEARCH FIX] - Escape special regex characters in phone number
     if (phoneNumber) {
-      filter.phoneNumber = { $regex: phoneNumber, $options: 'i' };
+      const escapedPhoneNumber = phoneNumber.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      filter.phoneNumber = { $regex: escapedPhoneNumber, $options: 'i' };
     }
 
     if (startDate || endDate) {

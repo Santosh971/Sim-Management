@@ -307,7 +307,7 @@ export default function CallLogs() {
               <input
                 type="text"
                 value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
+                onChange={(e) => setPhoneNumber(e.target.value.replace(/[\t\n\r]+/g, '').trim())}
                 placeholder="Search by phone number..."
                 style={{
                   width: '100%',

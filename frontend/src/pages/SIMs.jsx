@@ -1788,7 +1788,7 @@ export default function SIMs() {
               <input
                 type="text"
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => setSearch(e.target.value.replace(/[\t\n\r]+/g, '').trim())}
                 placeholder="Search by mobile number..."
                 style={{
                   width: '100%',
