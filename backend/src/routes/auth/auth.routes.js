@@ -20,7 +20,8 @@ const registerValidation = [
   body('name').trim().notEmpty().withMessage('Name is required').isLength({ max: 50 }),
   body('name').trim().notEmpty().withMessage('Name is required').isLength({ max: 50 }),
   body('role').optional().isIn(['admin', 'user']).withMessage('Invalid role'),
-  body('phone').optional().isMobilePhone().withMessage('Invalid phone number'),
+  // [PHONE VALIDATION FIX] - Accept phone with or without country code (same as SIM module)
+  body('phone').optional().matches(/^\+?\d{10,15}$/).withMessage('Invalid phone number (10-15 digits, optional + prefix)'),
   body('companyId').optional().isMongoId().withMessage('Invalid company ID'),
 ];
 
@@ -40,7 +41,8 @@ const changePasswordValidation = [
 
 const updateProfileValidation = [
   body('name').optional().trim().isLength({ max: 50 }).withMessage('Name cannot exceed 50 characters'),
-  body('phone').optional().isMobilePhone().withMessage('Invalid phone number'),
+  // [PHONE VALIDATION FIX] - Accept phone with or without country code (same as SIM module)
+  body('phone').optional().matches(/^\+?\d{10,15}$/).withMessage('Invalid phone number (10-15 digits, optional + prefix)'),
   body('preferences.notifications.email').optional().isBoolean(),
   body('preferences.notifications.sms').optional().isBoolean(),
   body('preferences.notifications.inApp').optional().isBoolean(),

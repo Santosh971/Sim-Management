@@ -21,9 +21,11 @@ const CompanySchema = new Schema({
     trim: true,
     validate: {
       validator: function (v) {
-        return !v || /^\+?[\d\s-]{10,}$/.test(v);
+        // [PHONE VALIDATION FIX] - Accept phone with or without country code
+        // Accepts: +9713211236540 (with country code) or 9876543210 (10 digits)
+        return !v || /^\+?\d{10,15}$/.test(v);
       },
-      message: 'Invalid phone number',
+      message: 'Invalid phone number (10-15 digits, optional + prefix)',
     },
   },
   address: {

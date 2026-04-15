@@ -9,7 +9,8 @@ const { validate } = require('../../middleware/validate');
 const createCompanyValidation = [
   body('name').trim().notEmpty().withMessage('Company name is required').isLength({ max: 100 }),
   body('email').isEmail().withMessage('Valid email is required').normalizeEmail(),
-  body('phone').optional().isMobilePhone().withMessage('Invalid phone number'),
+  // [PHONE VALIDATION FIX] - Accept phone with or without country code (same as SIM module)
+  body('phone').optional().matches(/^\+?\d{10,15}$/).withMessage('Invalid phone number (10-15 digits, optional + prefix)'),
   body('subscriptionId').isMongoId().withMessage('Valid subscription ID is required'),
   body('subscriptionDuration').optional().isInt({ min: 1 }).withMessage('Invalid subscription duration'),
   body('address.street').optional().isString(),
@@ -22,7 +23,8 @@ const createCompanyValidation = [
 const updateCompanyValidation = [
   param('id').isMongoId().withMessage('Invalid company ID'),
   body('name').optional().trim().isLength({ max: 100 }),
-  body('phone').optional().isMobilePhone(),
+  // [PHONE VALIDATION FIX] - Accept phone with or without country code (same as SIM module)
+  body('phone').optional().matches(/^\+?\d{10,15}$/).withMessage('Invalid phone number (10-15 digits, optional + prefix)'),
   body('logo').optional().isString(),
   body('settings.currency').optional().isString(),
   body('settings.timezone').optional().isString(),
@@ -49,13 +51,15 @@ const createAdminValidation = [
   body('name').trim().notEmpty().withMessage('Name is required').isLength({ max: 50 }),
   body('email').isEmail().withMessage('Valid email is required').normalizeEmail(),
   body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters'),
-  body('phone').optional().isMobilePhone().withMessage('Invalid phone number'),
+  // [PHONE VALIDATION FIX] - Accept phone with or without country code (same as SIM module)
+  body('phone').optional().matches(/^\+?\d{10,15}$/).withMessage('Invalid phone number (10-15 digits, optional + prefix)'),
 ];
 
 const updateAdminValidation = [
   param('adminId').isMongoId().withMessage('Invalid admin ID'),
   body('name').optional().trim().isLength({ max: 50 }),
-  body('phone').optional().isMobilePhone(),
+  // [PHONE VALIDATION FIX] - Accept phone with or without country code (same as SIM module)
+  body('phone').optional().matches(/^\+?\d{10,15}$/).withMessage('Invalid phone number (10-15 digits, optional + prefix)'),
   body('isActive').optional().isBoolean(),
 ];
 

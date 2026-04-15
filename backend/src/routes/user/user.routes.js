@@ -14,13 +14,16 @@ const createUserValidation = [
     .optional({ checkFalsy: true })
     .isLength({ min: 8 })
     .withMessage('Password must be at least 8 characters'),
-  body('phone').optional().isMobilePhone().withMessage('Invalid phone number'),
+  // [PHONE VALIDATION FIX] - Accept phone with or without country code (same as SIM module)
+  // Accepts: +9713211236540 (with country code) or 9876543210 (10 digits)
+  body('phone').optional().matches(/^\+?\d{10,15}$/).withMessage('Invalid phone number (10-15 digits, optional + prefix)'),
 ];
 
 const updateUserValidation = [
   param('id').isMongoId().withMessage('Invalid user ID'),
   body('name').optional().trim().isLength({ max: 50 }),
-  body('phone').optional().isMobilePhone().withMessage('Invalid phone number'),
+  // [PHONE VALIDATION FIX] - Accept phone with or without country code (same as SIM module)
+  body('phone').optional().matches(/^\+?\d{10,15}$/).withMessage('Invalid phone number (10-15 digits, optional + prefix)'),
   body('isActive').optional().isBoolean(),
 ];
 
